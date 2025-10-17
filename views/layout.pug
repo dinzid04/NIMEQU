@@ -160,16 +160,33 @@ html(lang="id" class="scroll-smooth")
         align-items: center;
         justify-content: center;
       }
-      .hero-slider .swiper-pagination-bullet {
+      .hero-pagination .swiper-pagination-bullet {
         background-color: rgba(255, 255, 255, 0.7);
         width: 10px;
         height: 10px;
         transition: all 0.2s ease;
+        opacity: 0.8;
       }
-      .hero-slider .swiper-pagination-bullet-active {
+      .hero-pagination .swiper-pagination-bullet-active {
         background-color: #fff;
         width: 28px;
         border-radius: 9999px;
+        opacity: 1;
+      }
+      .hero-nav {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.2);
+        width: 44px;
+        height: 44px;
+        border-radius: 9999px;
+        transition: all 0.2s ease;
+      }
+      .hero-nav:hover {
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      .hero-nav::after {
+        font-size: 20px;
+        font-weight: bold;
       }
 
   body(class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300")
