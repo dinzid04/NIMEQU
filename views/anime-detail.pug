@@ -1,54 +1,66 @@
 extends layout
 
 block content
-  div(class="min-h-screen bg-gray-50 dark:bg-gray-900")
-    div(class="container mx-auto px-4 py-6")
-      div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
-        div(class="lg:col-span-3 space-y-6")
-          div(class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden")
-            div(class="md:flex")
-              div(class="md:flex-shrink-0 relative")
-                img(src=anime.poster alt=anime.title class="h-64 w-full object-cover md:h-full md:w-56 transition-transform duration-300 transform rounded-l-xl" onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=No+Image';")
-                div(class="absolute inset-0 bg-black/20 dark:bg-white/10")
-              div(class="p-6 flex-1 flex flex-col justify-between")
-                div
-                  h1(class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-2")= anime.title
-                  div(class="flex flex-wrap gap-4 mb-4")
-                    if anime.status
-                      span(class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800 dark:bg-primary-200 dark:text-primary-900")= anime.status
-                    if anime.rating
-                      div(class="flex items-center")
-                        svg(class="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20")
-                          path(d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z")
-                        span(class="text-sm font-medium text-gray-700 dark:text-gray-200")= anime.rating
-                    if anime.release_year
-                      span(class="text-sm text-gray-500 dark:text-gray-400")= anime.release_year
-                if anime.genres && anime.genres.length > 0
-                  div(class="mb-4")
-                    h3(class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2") Genre:
-                    div(class="flex flex-wrap gap-2")
-                      each genre in anime.genres
-                        a(href=`/genres/${genre.slug}` class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs rounded hover:bg-primary-100 dark:hover:bg-primary-700 hover:text-primary-700 dark:hover:text-primary-200 transition-colors")= genre.slug
-                if anime.synopsis
-                  div(class="mb-4")
-                    h3(class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2") Sinopsis:
-                    p(class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed")= anime.synopsis
-                div(class="flex flex-wrap gap-3 mt-4")
-                  if anime.batch_links && anime.batch_links.length > 0
-                    a(href=`/anime/${anime.slug}/batch` class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium") Download Batch
+  - const heroImage = anime.poster || 'https://placehold.co/1200x400?text=Anime+Banner'
 
-          if anime.episodes && anime.episodes.length > 0
-            div(class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6")
-              h2(class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4") Daftar Episode
-              div(class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3")
-                each episode in anime.episodes.slice(0, 24)
-                  a(href=`/anime/${anime.slug}/episode/${episode.episode}` class="bg-gray-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-600 border border-gray-200 dark:border-gray-600 hover:border-primary-200 dark:hover:border-primary-400 rounded-lg p-3 text-center transition-colors")
-                    div(class="text-sm font-medium text-gray-900 dark:text-gray-100") Episode #{episode.episode}
+  div(class="relative h-64 md:h-80 bg-cover bg-center" style=`background-image: url('${heroImage}')`)
+    div(class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-transparent")
+    div(class="absolute inset-0 bg-gradient-to-r from-gray-900/50 to-transparent")
+
+  div(class="container mx-auto px-4 -mt-32 relative z-10")
+    div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
+      div(class="lg:col-span-1")
+        img(src=anime.poster alt=anime.title class="w-full h-auto rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=No+Image';")
+
+      div(class="lg:col-span-3 lg:mt-32 text-white")
+        div(class="bg-gray-800/50 dark:bg-gray-900/50 backdrop-blur-lg rounded-xl p-6")
+          h1(class="text-3xl md:text-4xl font-bold text-white mb-3")= anime.title
+
+          div(class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4 text-sm")
+            if anime.status
+              span(class="font-semibold text-primary-400")= anime.status
+            if anime.rating
+              div(class="flex items-center")
+                svg(class="w-4 h-4 text-yellow-400 mr-1.5" fill="currentColor" viewBox="0 0 20 20")
+                  path(d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z")
+                span(class="font-semibold")= anime.rating
+            if anime.release_year
+              span= anime.release_year
+
+          if anime.genres && anime.genres.length > 0
+            div(class="flex flex-wrap gap-2 mb-5")
+              each genre in anime.genres
+                a(href=`/genres/${genre.slug}` class="px-3 py-1 bg-white/10 text-white text-xs font-medium rounded-full hover:bg-primary-500 transition-colors duration-200")= genre.name
+
+          if anime.synopsis
+            p(class="text-gray-300 text-sm leading-relaxed mb-6 line-clamp-3")= anime.synopsis
+
+          div(class="flex flex-wrap gap-3")
+            if anime.episodes && anime.episodes.length > 0
+              a(href=`/anime/${anime.slug}/episode/${anime.episodes[0].episode}` class="bg-primary-600 text-white px-5 py-2.5 rounded-lg hover:bg-primary-700 transition-colors font-semibold flex items-center space-x-2")
+                svg(class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20")
+                  path(fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd")
+                span Mulai Nonton
+            if anime.batch_links && anime.batch_links.length > 0
+              a(href=`/anime/${anime.slug}/batch` class="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 transition-colors font-semibold") Download Batch
+
+  div(class="container mx-auto px-4 py-8")
+    div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
+      div(class="lg:col-span-3 space-y-8")
+        if anime.episodes && anime.episodes.length > 0
+          div(class="bg-white dark:bg-gray-800 rounded-xl shadow-lg")
+            div(class="p-6 border-b border-gray-200 dark:border-gray-700")
+              h2(class="text-2xl font-bold text-gray-900 dark:text-gray-100") Daftar Episode
+            div(class="max-h-[400px] overflow-y-auto p-2")
+              div(class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 p-4")
+                each episode in anime.episodes
+                  a(href=`/anime/${anime.slug}/episode/${episode.episode}` class="block bg-gray-100 dark:bg-gray-700/50 rounded-lg p-3 text-center group hover:bg-primary-100 dark:hover:bg-primary-600/50 transition-all duration-200")
+                    p(class="font-semibold text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary-700 dark:group-hover:text-primary-300") Episode #{episode.episode}
                     if episode.release_date
-                      div(class="text-xs text-gray-500 dark:text-gray-400 mt-1")= episode.release_date
-              if anime.episodes.length > 24
-                div(class="mt-4 text-center")
-                  a(href=`/anime/${anime.slug}/episodes` class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-200 font-medium") Lihat Semua Episode
+                      p(class="text-xs text-gray-500 dark:text-gray-400 mt-1")= episode.release_date
+            if anime.episodes.length > 20
+              div(class="p-4 text-center border-t border-gray-200 dark:border-gray-700")
+                a(href=`/anime/${anime.slug}/episodes` class="font-medium text-primary-600 dark:text-primary-400 hover:underline") Lihat Semua Episode
 
           if adSlots && adSlots.contentBottom && adSlots.contentBottom.length > 0
             div(class="space-y-6")
@@ -105,13 +117,13 @@ block scripts
   script.
     function shareToFacebook(title) {
       const url = encodeURIComponent(window.location.href);
-      const text = encodeURIComponent(`Nonton ${title} di KitaNime`);
+      const text = encodeURIComponent(`Nonton ${title} di ANIMAQU`);
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank', 'width=600,height=400');
     }
 
     function shareToTwitter(title) {
       const url = encodeURIComponent(window.location.href);
-      const text = encodeURIComponent(`Nonton ${title} di KitaNime`);
+      const text = encodeURIComponent(`Nonton ${title} di ANIMAQU`);
       window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
     }
 
