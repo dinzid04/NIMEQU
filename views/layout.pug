@@ -3,9 +3,9 @@ html(lang="id" class="scroll-smooth")
   head
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title= title || "KitaNime - Streaming Anime Subtitle Indonesia"
+    title= title || "ANIMAQU - Streaming Anime Subtitle Indonesia"
     meta(name="description" content=description || "Nonton anime subtitle Indonesia terlengkap dan terbaru")
-    meta(name="keywords" content="kitanime, KitaNime, anime, streaming anime, subtitle indonesia, nonton anime, anime sub indo, anime indonesia, streaming anime gratis, anime terbaru, anime ongoing, anime complete, anime movie, download anime, watch anime online, anime HD, otaku indonesia, Streaming Anime Sub Indo, streaming anime, sub indo, sub indonesia")
+    meta(name="keywords" content="animaqu, ANIMAQU, anime, streaming anime, subtitle indonesia, nonton anime, anime sub indo, anime indonesia, streaming anime gratis, anime terbaru, anime ongoing, anime complete, anime movie, download anime, watch anime online, anime HD, otaku indonesia, Streaming Anime Sub Indo, streaming anime, sub indo, sub indonesia")
     
     meta(name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1")
     meta(name="google-site-verification" content="KYZb3rNH5REPdVtPCSei_EhvxVJDmX7zd1KVWn49M_k")
@@ -13,7 +13,7 @@ html(lang="id" class="scroll-smooth")
     meta(http-equiv="content-language" content="id-ID")
     meta(name="author" content="IkuzaDev")
     meta(name="publisher" content="D5studioID")
-    meta(name="copyright" content="© 2025 KitaNime. All rights reserved.")
+    meta(name="copyright" content="© 2025 ANIMAQU. All rights reserved.")
     meta(name="google-adsense-account" content="ca-pub-7452678962186302")
     link(rel="icon" href="/images/favicon.ico" onerror="this.onerror=null;this.src='https://placehold.co/400';")
     link(rel="dns-prefetch" href="//d5studio.my.id")  
@@ -36,12 +36,13 @@ html(lang="id" class="scroll-smooth")
     link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
     link(rel="preconnect" href="https://cdn.plyr.io")
     link(rel="preconnect" href="https://cdn.tailwindcss.com")
+    link(rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css")
     
     meta(property="og:title" content=title)
     meta(property="og:description" content=description)
     meta(property="og:type" content="website")
     meta(property="og:url" content="https://d5studio.my.id")
-    meta(property="og:site_name" content="KitaNime")
+    meta(property="og:site_name" content="ANIMAQU")
     meta(property="og:image" content="https://d5studio.my.id/images/logo.png")
     
     meta(name="twitter:card" content="summary_large_image")
@@ -52,14 +53,14 @@ html(lang="id" class="scroll-smooth")
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "KitaNime",
-        "alternateName": "KitaNime - Streaming Anime Sub Indo",
+        "name": "ANIMAQU",
+        "alternateName": "ANIMAQU - Streaming Anime Sub Indo",
         "url": "https://d5studio.my.id",
         "description": "Platform streaming anime subtitle Indonesia terlengkap dan terbaru. Nikmati ribuan anime berkualitas tinggi dengan subtitle Indonesia.",
         "inLanguage": "id-ID",
         "publisher": {
           "@type": "Organization",
-          "name": "KitaNime",
+          "name": "ANIMAQU",
           "url": "https://d5studio.my.id",
           "logo": {
             "@type": "ImageObject",
@@ -77,15 +78,15 @@ html(lang="id" class="scroll-smooth")
           "query-input": "required name=search_term_string"
         },
         "sameAs": [
-          "https://twitter.com/KitaNime",
-          "https://facebook.com/KitaNime"
+          "https://twitter.com/ANIMAQU",
+          "https://facebook.com/ANIMAQU"
         ]
       }
     script(type="application/ld+json").
         {
           "@context": "https://schema.org",
           "@type": "Organization",
-          "name": "KitaNime",
+          "name": "ANIMAQU",
           "url": "https://d5studio.my.id",
           "logo": "https://d5studio.my.id/images/logo.png",
           "sameAs": [
@@ -164,7 +165,7 @@ html(lang="id" class="scroll-smooth")
       nav(class="container mx-auto px-8 py-4")
         div(class="flex items-center justify-between")
           a(href="/" class="flex items-center")
-            img(src="/images/logo.png" alt="KitaNime" class="h-8 w-auto rounded-sm", onerror="this.onerror=null;this.src='https://placehold.co/400?text=KN';")
+            img(src="/images/logo.png" alt="ANIMAQU" class="h-8 w-auto rounded-sm", onerror="this.onerror=null;this.src='https://placehold.co/400?text=AQ';")
           
           div(class="hidden md:flex items-center space-x-6")
             a(href="/" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'home' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Home
@@ -197,33 +198,56 @@ html(lang="id" class="scroll-smooth")
               svg(id="moonIcon" class="w-5 h-5 text-gray-300 hidden dark:block" fill="currentColor" viewBox="0 0 20 20")
                 path(d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z")
             
-            button(id="mobileMenuBtn" class="md:hidden p-2 text-gray-600 dark:text-gray-300")
-              svg(class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24")
-                path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16")
+            //- button(id="mobileMenuBtn" class="md:hidden p-2 text-gray-600 dark:text-gray-300")
+            //-  svg(class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            //-    path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16")
         
-        div(id="mobileMenu" class="md:hidden hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700")
-          div(class="flex flex-col space-y-3 pt-4")
-            a(href="/" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'home' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Beranda
-            a(href="/ongoing" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'ongoing' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Ongoing
-            a(href="/complete" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'complete' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Complete
-            a(href="/genres" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'genres' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Genre
-            a(href="/movies" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'movies' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Movies
+        //- div(id="mobileMenu" class="md:hidden hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700")
+        //-  div(class="flex flex-col space-y-3 pt-4")
+        //-    a(href="/" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'home' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Beranda
+        //-    a(href="/ongoing" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'ongoing' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Ongoing
+        //-    a(href="/complete" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'complete' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Complete
+        //-    a(href="/genres" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'genres' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Genre
+        //-    a(href="/movies" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'movies' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Movies
 
     if adSlots && adSlots.header && adSlots.header.length > 0
       div(class="container mx-auto px-4 py-2")
         each ad in adSlots.header
           div(class="ad-slot bg-gray-100 rounded-lg")!= ad.content
 
-    main(class="min-h-screen")
+    main(class="min-h-screen pb-24")
       block content
+
+    nav(class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg z-50")
+      div(class="flex justify-around items-center h-16")
+        a(href="/" class=`flex flex-col items-center justify-center w-full text-xs transition-colors ${currentPage === 'home' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400'}`)
+          svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6")
+          span Home
+        a(href="/ongoing" class=`flex flex-col items-center justify-center w-full text-xs transition-colors ${currentPage === 'ongoing' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400'}`)
+          svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z")
+          span Ongoing
+        a(href="/complete" class=`flex flex-col items-center justify-center w-full text-xs transition-colors ${currentPage === 'complete' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400'}`)
+          svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z")
+          span Complete
+        a(href="/genres" class=`flex flex-col items-center justify-center w-full text-xs transition-colors ${currentPage === 'genres' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400'}`)
+          svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z")
+          span Genre
+        a(href="/movies" class=`flex flex-col items-center justify-center w-full text-xs transition-colors ${currentPage === 'movies' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400'}`)
+          svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.55a2 2 0 01.95 1.7V17a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h5.5l2.5 3z")
+          span Movies
 
     footer(class="bg-gray-900 dark:bg-gray-950 text-white mt-12 transition-colors duration-300")
       div(class="container mx-auto px-4 py-8")
         div(class="grid grid-cols-1 md:grid-cols-4 gap-8")
           div(class="col-span-1 md:col-span-2")
             div(class="flex items-center space-x-2 mb-4")
-              img(src="/images/logo.png" alt="KitaNime" class="h-8 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/400?text=KN';")
-              span(class="text-xl font-bold") KitaNime
+              img(src="/images/logo.png" alt="ANIMAQU" class="h-8 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/400?text=AQ';")
+              span(class="text-xl font-bold") ANIMAQU
             p(class="text-gray-400 mb-4") Platform streaming anime subtitle Indonesia terlengkap dan terbaru. Nikmati ribuan anime berkualitas tinggi dengan subtitle Indonesia.
             div(class="flex space-x-4")
               a(href="#" class="text-gray-400 hover:text-white transition-colors")
@@ -324,4 +348,5 @@ html(lang="id" class="scroll-smooth")
       script.
         (adsbygoogle = window.adsbygoogle || []).push({});
 
+  script(src="https://unpkg.com/swiper/swiper-bundle.min.js")
   block scripts
