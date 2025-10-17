@@ -13,6 +13,7 @@ const indexRoutes = require('./routes/index');
 const animeRoutes = require('./routes/anime');
 const adminRoutes = require('./routes/admin');
 const apiRoutes = require('./routes/api');
+const movieRoutes = require('./routes/movies');
 
 const cookieConsent = require('./middleware/cookieConsent');
 const adSlots = require('./middleware/adSlots');
@@ -73,6 +74,7 @@ app.use('/', indexRoutes);
 app.use('/anime', animeRoutes);
 app.use('/admin', adminRoutes);
 app.use('/api', apiRoutes);
+app.use('/movies', movieRoutes);
 
 app.use((req, res) => {
   res.status(404).render('error', {

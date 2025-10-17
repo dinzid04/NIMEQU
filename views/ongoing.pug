@@ -1,51 +1,56 @@
 extends layout
 
 block content
-  div(class="container mx-auto px-4 py-6")
-    div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
-      div(class="lg:col-span-3")
-        div(class="mb-6")
-          h1(class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2") Anime Ongoing
-          p(class="text-gray-600 dark:text-gray-400") Daftar anime yang sedang tayang dengan subtitle Indonesia
+  div(class="bg-gray-100 dark:bg-gray-900")
+    div(class="container mx-auto px-4 py-8")
+      header(class="mb-8 text-center")
+        h1(class="text-4xl font-bold text-gray-900 dark:text-white mb-2") Anime Ongoing
+        p(class="text-lg text-gray-600 dark:text-gray-400") Episode terbaru dari seri anime favoritmu.
 
-        if animeList && animeList.length > 0
-          div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8")
-            each anime in animeList
-              div(class="anime-card group relative")
-                a(href=`/anime/${anime.slug}`)
-                  div(class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl dark:shadow-gray-900/50 overflow-hidden transform transition-all duration-300 hover:scale-105 border border-gray-100 dark:border-gray-700")
-                    div(class="relative overflow-hidden")
-                      img(src=anime.poster alt=anime.title class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=No+Image';")
-                      div(class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300")
-                      if anime.current_episode
-                        div(class="absolute top-3 left-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm")= anime.current_episode
-                      if anime.newest_release_date
-                        div(class="absolute top-3 right-3 bg-black/70 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full")= anime.newest_release_date
-                      div(class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300")
-                        div(class="flex items-center justify-between text-white")
-                          h3(class="font-bold text-sm text-gray-100 dark:text-gray-100 line-clamp-2 mb-2 transition-colors duration-200")= anime.title
+      if animeList && animeList.length > 0
+        div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-8 mb-8")
+          each anime in animeList
+            a(href=`/anime/${anime.slug}` class="group block bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300")
+              div(class="relative overflow-hidden rounded-t-lg")
+                img(src=anime.poster alt=anime.title class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=No+Image';")
+                if anime.current_episode
+                  div(class="absolute top-2 left-2 bg-primary-600 text-white text-xs font-semibold px-2 py-1 rounded-md")= anime.current_episode
+                if anime.newest_release_date
+                  div(class="absolute bottom-2 right-2 bg-gray-900/70 text-white text-xs font-semibold px-2 py-1 rounded-md")= anime.newest_release_date
+              div(class="p-4")
+                h3(class="font-bold text-md text-gray-800 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 line-clamp-2")= anime.title
+                p(class="text-xs text-gray-500 dark:text-gray-400 mt-1")= anime.release_day
 
-          if pagination && pagination.last_visible_page > 0
-            nav(class="flex justify-center")
-              div(class="flex items-center space-x-2")
-                if pagination.current_page > 1
-                  a(href=`/ongoing?page=${pagination.current_page - 1}` class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200") Sebelumnya
-                
-                each page in Array.from({length: Math.min(5, pagination.last_visible_page)}, (_, i) => {const start = Math.max(1, pagination.current_page - 2);return start + i;}).filter(p => p <= pagination.last_visible_page)
-                  if page === pagination.current_page
-                    span(class="px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-lg font-medium")= page
-                  else
-                    a(href=`/ongoing?page=${page}` class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200")= page
-                
-                if pagination.current_page < pagination.last_visible_page
-                  a(href=`/ongoing?page=${pagination.next_page}` class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200") Selanjutnya
+        if pagination && pagination.last_visible_page > 1
+          nav(class="flex justify-center items-center space-x-4")
+            a(href=`/ongoing?page=${pagination.current_page - 1}` class=`px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-800 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 ${pagination.current_page === 1 ? 'opacity-50 cursor-not-allowed' : ''}`) Sebelumnya
 
-        else
-          div(class="text-center py-12")
-            svg(class="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24")
-              path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z")
-            h3(class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2") Tidak ada anime ongoing
-            p(class="text-gray-600 dark:text-gray-400") Belum ada data anime ongoing yang tersedia
+            div(class="hidden md:flex items-center space-x-2")
+              - const pageRange = 3
+              - let startPage = Math.max(1, pagination.current_page - pageRange)
+              - let endPage = Math.min(pagination.last_visible_page, pagination.current_page + pageRange)
+
+              if startPage > 1
+                a(href="/ongoing?page=1" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700") 1
+                if startPage > 2
+                  span(class="px-4 py-2 text-sm font-medium text-gray-500") ...
+
+              each page in Array.from({length: endPage - startPage + 1}, (_, i) => startPage + i)
+                a(href=`/ongoing?page=${page}` class=`px-4 py-2 text-sm font-medium rounded-lg ${page === pagination.current_page ? 'text-white bg-primary-600 border border-primary-600' : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700'}`)= page
+
+              if endPage < pagination.last_visible_page
+                if endPage < pagination.last_visible_page - 1
+                  span(class="px-4 py-2 text-sm font-medium text-gray-500") ...
+                a(href=`/ongoing?page=${pagination.last_visible_page}` class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700")= pagination.last_visible_page
+
+            a(href=`/ongoing?page=${pagination.next_page}` class=`px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-800 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 ${!pagination.has_next_page ? 'opacity-50 cursor-not-allowed' : ''}`) Selanjutnya
+
+      else
+        div(class="text-center py-16")
+          svg(class="w-20 h-20 text-gray-400 dark:text-gray-500 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z")
+          h3(class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2") Yah, Kosong!
+          p(class="text-gray-500 dark:text-gray-400") Sepertinya belum ada anime ongoing yang bisa ditampilkan saat ini.
 
         if adSlots && adSlots.contentBottom && adSlots.contentBottom.length > 0
           div(class="mb-6")

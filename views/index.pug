@@ -1,29 +1,36 @@
 extends layout
 
 block content
-  - const heroAnime = ongoingAnime && ongoingAnime.length > 0 ? ongoingAnime[0] : null
-  - const heroImage = heroAnime ? heroAnime.poster : 'https://placehold.co/1200x480?text=ANIMAQU'
+  - const sliderAnime = ongoingAnime && ongoingAnime.length > 2 ? ongoingAnime.slice(0, 3) : []
 
-  section(class="relative h-80 md:h-96 bg-cover bg-center text-white" style=`background-image: url('${heroImage}')`)
-    div(class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent")
-    div(class="absolute inset-0 bg-gradient-to-r from-gray-900/70 to-transparent")
-    div(class="container mx-auto px-4 relative z-10 flex flex-col justify-center h-full")
-      if heroAnime
-        div(class="max-w-xl")
-          h1(class="text-4xl md:text-5xl font-bold mb-3")= heroAnime.title
-          div(class="flex items-center space-x-4 mb-4 text-sm")
-            span= heroAnime.current_episode
-            span &bull;
-            span= heroAnime.release_day
-          p(class="text-gray-200 line-clamp-3 mb-6")= "Temukan berbagai macam anime terbaru dan terpopuler dengan subtitle Indonesia hanya di ANIMAQU."
-          a(href=`/anime/${heroAnime.slug}` class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-semibold inline-flex items-center space-x-2")
-            svg(class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20")
-              path(fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd")
-            span Tonton Sekarang
-      else
-        div(class="max-w-2xl")
-          h1(class="text-4xl md:text-5xl font-bold mb-4") Selamat Datang di ANIMAQU
-          p(class="text-lg text-gray-200 mb-6") Platform streaming anime subtitle Indonesia terlengkap. Nikmati ribuan anime berkualitas tinggi dengan subtitle Indonesia yang akurat.
+  if sliderAnime.length > 0
+    section(class="swiper hero-slider")
+      div(class="swiper-wrapper")
+        each anime in sliderAnime
+          div(class="swiper-slide relative h-96 md:h-[520px] bg-cover bg-center text-white" style=`background-image: url('${anime.poster}')`)
+            div(class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent")
+            div(class="absolute inset-0 bg-gradient-to-r from-gray-900/70 to-transparent")
+            div(class="container mx-auto px-4 relative z-10 flex flex-col justify-end h-full pb-16")
+              div(class="max-w-xl")
+                h1(class="text-4xl md:text-5xl font-bold mb-3 opacity-0 animate-fade-in-up")= anime.title
+                div(class="flex items-center space-x-4 mb-4 text-sm opacity-0 animate-fade-in-up animation-delay-200")
+                  span= anime.current_episode
+                  span &bull;
+                  span= anime.release_day
+                p(class="text-gray-200 line-clamp-3 mb-6 opacity-0 animate-fade-in-up animation-delay-400")= "Temukan berbagai macam anime terbaru dan terpopuler dengan subtitle Indonesia hanya di ANIMAQU."
+                a(href=`/anime/${anime.slug}` class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-semibold inline-flex items-center space-x-2 opacity-0 animate-fade-in-up animation-delay-600")
+                  svg(class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20")
+                    path(fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd")
+                  span Tonton Sekarang
+      div(class="swiper-pagination")
+      div(class="swiper-button-prev")
+      div(class="swiper-button-next")
+
+  else
+    div(class="container mx-auto px-4 py-8")
+      div(class="max-w-2xl mx-auto text-center")
+        h1(class="text-4xl md:text-5xl font-bold mb-4") Selamat Datang di ANIMAQU
+        p(class="text-lg text-gray-600 dark:text-gray-300 mb-6") Platform streaming anime subtitle Indonesia terlengkap. Nikmati ribuan anime berkualitas tinggi dengan subtitle Indonesia yang akurat.
 
   div(class="container mx-auto px-4 py-8")
     div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
@@ -117,6 +124,42 @@ block content
 
 block scripts
   script.
+    const swiper = new Swiper('.hero-slider', {
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      effect: 'fade',
+      fadeEffect: {
+        crossFade: true
+      },
+      on: {
+        slideChangeTransitionStart: function () {
+          const activeSlide = this.slides[this.activeIndex];
+          const animatedElements = activeSlide.querySelectorAll('.animate-fade-in-up');
+          animatedElements.forEach(el => {
+            el.classList.remove('opacity-0');
+          });
+        },
+        slideChangeTransitionEnd: function () {
+          const prevSlide = this.slides[this.previousIndex];
+          const animatedElements = prevSlide.querySelectorAll('.animate-fade-in-up');
+          animatedElements.forEach(el => {
+            el.classList.add('opacity-0');
+          });
+        }
+      }
+    });
+
     const qrcode = #{"'" + qrcode+ "'"} ;
     console.log(qrcode);
 

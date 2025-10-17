@@ -382,38 +382,6 @@ router.get('/genres/:slug', async (req, res) => {
   }
 });
 
-router.get('/movies/', async (req, res) => {
-  try {
-    const page = parseInt(req.query.page) || 1;
-    var movieData = await animeApi.getMovies(page);
-    if(!movieData) {
-      return res.status(404).render('error', {
-        title: 'Tidak ada film anime - KitaNime',
-        error: {
-          status: 404,
-          message: 'Tidak ada film anime\nCoba Kembali!'
-        }
-      });
-    }
-    res.render('movie-list', {
-      title: `Daftar Film Anime - KitaNime`,
-      description: `Daftar film anime terbaru`,
-      animeList: movieData.data.movies || [],
-      pagination : movieData.data.pagination || { current_page: 1, total_pages: 2 },
-      currentPage: 'movies'
-    });
-  } catch (error) {
-    console.error('Movies page error:', error);
-    res.render('error', {
-      title: 'Terjadi Kesalahan - KitaNime',
-      error: {
-        status: 500,
-        message: 'Tidak dapat memuat data film anime'
-      }
-    });
-  }
-});
-
 router.get('/movies/:year/:month/:slug', async (req, res) => {
   try {
     const { year, month, slug } = req.params;

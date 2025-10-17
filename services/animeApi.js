@@ -43,12 +43,12 @@ class AnimeApiService {
         params,
         timeout: 10000,
         headers: {
-          'User-Agent': 'KitaNime/1.0'
+          'User-Agent': 'ANIMAQU/1.0'
         }
       });
 
-      if (response.data && response.data.status === 'Ok') {
-        if(endpoint === '/ongoing-anime' || endpoint.includes('/complete-anime') || endpoint.includes('/search') || endpoint.includes('/movies') || response.data.anime && response.data.pagination) {
+      if (response.data && (response.data.status === 'Ok' || response.data.status === 200)) {
+        if(endpoint === '/ongoing-anime' || endpoint.includes('/complete-anime') || endpoint.includes('/search') || endpoint.includes('/movies') || endpoint.includes('/movie-list') || response.data.anime && response.data.pagination) {
           return response.data;
         }
         return response.data.data;
@@ -81,6 +81,9 @@ class AnimeApiService {
           break;
         case '/search':
           filename = 'v1_search_keyword.json';
+          break;
+        case '/movie-list':
+          filename = 'v1_movie-list_page.json';
           break;
         default:
           if (endpoint.includes('/anime/') && endpoint.includes('/episodes')) {
@@ -118,8 +121,8 @@ class AnimeApiService {
     return await this.makeRequest(`/complete-anime/${page}`);
   }
 
-  async getMovies(page = 1) {
-    return await this.makeRequest(`/movies/${page}`);
+  async getMovieList(page = 1) {
+    return await this.makeRequest(`/movie-list`, { page });
   }
 
   async getMovieDetails(year, month, slug) {

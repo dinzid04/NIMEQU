@@ -1,66 +1,60 @@
 extends layout
 
 block content
-  div(class="container mx-auto px-4 py-6")
-    div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
-      div(class="lg:col-span-3")
-        div(class="mb-6")
-          nav(class="mb-4")
-            ol(class="flex items-center space-x-2 text-sm text-gray-500")
-              li: a(href="/" class="hover:text-primary-600") Beranda
-              li: span /
-              li: a(href="/genres" class="hover:text-primary-600") Genre
-              li: span /
-              li(class="text-gray-900 font-medium")= genreName
-          
-          h1(class="text-2xl md:text-3xl font-bold text-gray-900 mb-2") Genre #{genreName}
-          p(class="text-gray-600") Daftar anime dengan genre #{genreName}
+  div(class="bg-gray-100 dark:bg-gray-900")
+    div(class="container mx-auto px-4 py-8")
+      header(class="mb-8 text-center")
+        h1(class="text-4xl font-bold text-gray-900 dark:text-white mb-2") Genre: #{genreName}
+        p(class="text-lg text-gray-600 dark:text-gray-400") Menampilkan semua anime dalam genre #{genreName}.
 
-        if animeList && animeList.length > 0
-          div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8")
-            each anime in animeList
-              div(class="anime-card group relative")
-                a(href=`/anime/${anime.slug}`)
-                  div(class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl dark:shadow-gray-900/50 overflow-hidden transform transition-all duration-300 hover:scale-105 border border-gray-100 dark:border-gray-700")
-                    div(class="relative overflow-hidden")
-                      img(src=anime.poster alt=anime.title class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=No+Image';")
-                      div(class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300")
-                      
-                      div(class="absolute top-3 left-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm")= anime.rating?'Complete':'onGoing'
-                      if anime.rating
-                        div(class="absolute top-3 right-3 bg-black/70 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full flex items-center")
-                          svg(class="w-3 h-3 mr-1 text-yellow-400" fill="currentColor" viewBox="0 0 20 20")
-                            path(d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z")
-                          span= anime.rating
-                      div(class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300")
-                        div(class="flex items-center justify-between text-white")
-                          div(class="flex items-center space-x-2")
-                            h3(class="font-bold text-sm text-gray-100 dark:text-gray-100 line-clamp-2 mb-2 transition-colors duration-200")= anime.title
-                          button(class="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200")= anime.season
-                    
+      if animeList && animeList.length > 0
+        div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-8 mb-8")
+          each anime in animeList
+            a(href=`/anime/${anime.slug}` class="group block bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300")
+              div(class="relative overflow-hidden rounded-t-lg")
+                img(src=anime.poster alt=anime.title class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=No+Image';")
+                if anime.rating
+                  div(class="absolute top-2 left-2 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded-md") Selesai
+                else
+                  div(class="absolute top-2 left-2 bg-primary-600 text-white text-xs font-semibold px-2 py-1 rounded-md") Ongoing
+                if anime.rating
+                  div(class="absolute bottom-2 right-2 bg-gray-900/70 text-white text-xs font-semibold px-2 py-1 rounded-md flex items-center space-x-1")
+                    svg(class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20")
+                      path(d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z")
+                    span= anime.rating
+              div(class="p-4")
+                h3(class="font-bold text-md text-gray-800 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 line-clamp-2")= anime.title
 
-          if pagination && pagination.last_visible_page > 0
-            nav(class="flex justify-center mb-6")
-              div(class="flex items-center space-x-2")
-                if pagination.current_page > 1
-                  a(href=`/genres/${genreSlug}?page=${pagination.current_page - 1}` class="px-3 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors") Sebelumnya
-                
-                each page in Array.from({length: Math.min(5, pagination.last_visible_page)}, (_, i) => {const start = Math.max(1, pagination.current_page - 2);return start + i;}).filter(p => p <= pagination.last_visible_page)
-                  if page === pagination.current_page
-                    span(class="px-3 py-2 bg-primary-600 text-white rounded")= page
-                  else
-                    a(href=`/genres/${genreSlug}?page=${page}` class="px-3 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors")= page
-                
-                if pagination.current_page < pagination.last_visible_page
-                  a(href=`/genres/${genreSlug}?page=${pagination.current_page + 1}` class="px-3 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors") Selanjutnya
+        if pagination && pagination.last_visible_page > 1
+          nav(class="flex justify-center items-center space-x-4")
+            a(href=`/genres/${genreSlug}?page=${pagination.current_page - 1}` class=`px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-800 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 ${pagination.current_page === 1 ? 'opacity-50 cursor-not-allowed' : ''}`) Sebelumnya
 
-        else
-          div(class="text-center py-12")
-            svg(class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24")
-              path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z")
-            h3(class="text-lg font-medium text-gray-900 mb-2") Tidak ada anime ditemukan
-            p(class="text-gray-600 mb-4") Belum ada anime dengan genre #{genreName} yang tersedia
-            a(href="/genres" class="text-primary-600 hover:text-primary-700 font-medium") Lihat Genre Lain
+            div(class="hidden md:flex items-center space-x-2")
+              - const pageRange = 3
+              - let startPage = Math.max(1, pagination.current_page - pageRange)
+              - let endPage = Math.min(pagination.last_visible_page, pagination.current_page + pageRange)
+
+              if startPage > 1
+                a(href=`/genres/${genreSlug}?page=1` class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700") 1
+                if startPage > 2
+                  span(class="px-4 py-2 text-sm font-medium text-gray-500") ...
+
+              each page in Array.from({length: endPage - startPage + 1}, (_, i) => startPage + i)
+                a(href=`/genres/${genreSlug}?page=${page}` class=`px-4 py-2 text-sm font-medium rounded-lg ${page === pagination.current_page ? 'text-white bg-primary-600 border border-primary-600' : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700'}`)= page
+
+              if endPage < pagination.last_visible_page
+                if endPage < pagination.last_visible_page - 1
+                  span(class="px-4 py-2 text-sm font-medium text-gray-500") ...
+                a(href=`/genres/${genreSlug}?page=${pagination.last_visible_page}` class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700")= pagination.last_visible_page
+
+            a(href=`/genres/${genreSlug}?page=${pagination.next_page}` class=`px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-800 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 ${!pagination.has_next_page ? 'opacity-50 cursor-not-allowed' : ''}`) Selanjutnya
+
+      else
+        div(class="text-center py-16")
+          svg(class="w-20 h-20 text-gray-400 dark:text-gray-500 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z")
+          h3(class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2") Yah, Kosong!
+          p(class="text-gray-500 dark:text-gray-400") Sepertinya belum ada anime dengan genre #{genreName} yang bisa ditampilkan saat ini.
 
         if adSlots && adSlots.contentBottom && adSlots.contentBottom.length > 0
           div(class="mb-6")

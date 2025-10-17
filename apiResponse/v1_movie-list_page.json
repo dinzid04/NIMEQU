@@ -1,0 +1,37 @@
+{
+  "status": "Ok",
+  "animeList": [
+    {
+      "title": "Kimi no Na wa.",
+      "slug": "kimi-no-na-wa-sub-indo",
+      "poster": "https://m.media-amazon.com/images/M/MV5BODRmZDVmNzUtZDVlMy00ZWQwLTg5NGYtMjM2MDA5N2RjOWU3XkEyXkFqcGdeQXVyNTk0MzMzODA@._V1_FMjpg_UX1000_.jpg",
+      "rating": "9.2",
+      "years": "2016",
+      "month": "08"
+    },
+    {
+      "title": "Spirited Away",
+      "slug": "spirited-away-sub-indo",
+      "poster": "https://m.media-amazon.com/images/M/MV5BMjlmZmI5MDctNDE2YS00YWE0LWE5ZWItZDBhYWQ0NTcxNWRhXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
+      "rating": "8.6",
+      "years": "2001",
+      "month": "07"
+    },
+    {
+      "title": "Princess Mononoke",
+      "slug": "princess-mononoke-sub-indo",
+      "poster": "https://m.media-amazon.com/images/M/MV5BNGIzY2IzODQtNThmMi00ZDE4LWI5YzctNzAzMDM0YjVlOTU0XkEyXkFqcGdeQXVyODEzNjM5OTQ@._V1_.jpg",
+      "rating": "8.4",
+      "years": "1997",
+      "month": "07"
+    }
+  ],
+  "pagination": {
+    "current_page": 1,
+    "last_visible_page": 1,
+    "has_next_page": false,
+    "next_page": null,
+    "has_previous_page": false,
+    "previous_page": null
+  }
+}
