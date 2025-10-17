@@ -34,11 +34,17 @@ router.get('/', async (req, res) => {
     const homeData = await animeApi.getHomeData();
     const siteTitle = await getSetting('site_title') || 'KitaNime - Streaming Anime Subtitle Indonesia';
     const siteDescription = await getSetting('site_description') || 'Nonton anime subtitle Indonesia terlengkap dan terbaru';
+
+    // Shuffle ongoing anime and pick 3 for the hero slider
+    const ongoingAnime = homeData?.ongoing_anime || [];
+    const shuffledOngoing = ongoingAnime.sort(() => 0.5 - Math.random());
+    const featuredAnime = shuffledOngoing.slice(0, 3);
     
     res.render('index', {
       title: siteTitle,
       description: siteDescription,
-      ongoingAnime: homeData?.ongoing_anime || [],
+      featuredAnime: featuredAnime,
+      ongoingAnime: ongoingAnime,
       completeAnime: homeData?.complete_anime || [],
       currentPage: 'home'
     });

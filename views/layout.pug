@@ -100,7 +100,9 @@ html(lang="id" class="scroll-smooth")
           }
         }
     
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css")
     link(rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css")
+    script(src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js")
     script(src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js")
     script(src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js')
     script(async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7452678962186302" crossorigin="anonymous")
@@ -157,6 +159,17 @@ html(lang="id" class="scroll-smooth")
         display: flex;
         align-items: center;
         justify-content: center;
+      }
+      .hero-slider .swiper-pagination-bullet {
+        background-color: rgba(255, 255, 255, 0.7);
+        width: 10px;
+        height: 10px;
+        transition: all 0.2s ease;
+      }
+      .hero-slider .swiper-pagination-bullet-active {
+        background-color: #fff;
+        width: 28px;
+        border-radius: 9999px;
       }
 
   body(class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300")

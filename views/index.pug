@@ -2,11 +2,31 @@ extends layout
 
 block content
   div(class="container mx-auto px-4 py-6")
-    section(class="mb-8")
-      div(class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-700 dark:to-primary-900 rounded-xl p-8 text-white transition-colors duration-300")
-        div(class="max-w-2xl")
-          h1(class="text-3xl md:text-4xl font-bold mb-4") Selamat Datang di KitaNime
-          p(class="text-lg opacity-90 mb-6") Platform streaming anime subtitle Indonesia terlengkap. Nikmati ribuan anime berkualitas tinggi dengan subtitle Indonesia yang akurat.
+    if featuredAnime && featuredAnime.length > 0
+      section(class="mb-8 relative")
+        div(class="swiper hero-slider rounded-2xl overflow-hidden")
+          div(class="swiper-wrapper")
+            each anime in featuredAnime
+              div(class="swiper-slide relative")
+                a(href=`/anime/${anime.slug}`)
+                  img(src=anime.poster alt=anime.title class="w-full h-[300px] md:h-[450px] object-cover")
+                  div(class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent")
+                  div(class="absolute bottom-0 left-0 right-0 p-6 md:p-10 text-white")
+                    h2(class="text-2xl md:text-4xl font-bold mb-2")= anime.title
+                    div(class="flex items-center space-x-4 mb-4")
+                      if anime.current_episode
+                        span(class="bg-primary-500 text-white text-xs font-bold px-3 py-1 rounded-full")= anime.current_episode
+                      if anime.release_day
+                        span(class="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium")= anime.release_day
+                    p(class="text-sm md:text-base text-gray-300 line-clamp-2 md:line-clamp-3 max-w-2xl")= anime.synopsis || 'No synopsis available.'
+
+        div(class="swiper-pagination absolute bottom-4 left-1/2 -translate-x-1/2 z-10")
+        div(class="swiper-button-prev-hero hidden md:flex absolute top-1/2 left-4 -translate-y-1/2 z-10 p-3 bg-white/20 rounded-full cursor-pointer hover:bg-white/30 transition-colors")
+          svg(class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7")
+        div(class="swiper-button-next-hero hidden md:flex absolute top-1/2 right-4 -translate-y-1/2 z-10 p-3 bg-white/20 rounded-full cursor-pointer hover:bg-white/30 transition-colors")
+          svg(class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7")
 
     div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
       div(class="lg:col-span-3")
@@ -126,19 +146,51 @@ block content
 
 block scripts
   script.
-    const qrcode = #{"'" + qrcode+ "'"} ;
-    console.log(qrcode);
-
-    if(qrcode){
-      new QRCode(document.getElementById('qrcode'), {text: qrcode, width: 180, height: 180, colorDark: "#000000",colorLight: "#ffffff"})
-    }
-
-    document.getElementById('donasi').addEventListener("submit", function (e) {
-      const nominal = document.getElementById('nominal').value;
-      if(nominal < 1000){
-        document.getElementById('nominal').value = 10000;
+    document.addEventListener('DOMContentLoaded', function () {
+      if (document.querySelector('.hero-slider')) {
+        const heroSlider = new Swiper('.hero-slider', {
+          loop: true,
+          effect: 'fade',
+          fadeEffect: {
+            crossFade: true
+          },
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+          },
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next-hero',
+            prevEl: '.swiper-button-prev-hero',
+          },
+        });
       }
     });
+
+    const qrcode = !{JSON.stringify(qrcode || null)};
+    if (qrcode) {
+      new QRCode(document.getElementById('qrcode'), {
+        text: qrcode,
+        width: 180,
+        height: 180,
+        colorDark: "#000000",
+        colorLight: "#ffffff"
+      });
+    }
+
+    const donasiForm = document.getElementById('donasi');
+    if (donasiForm) {
+      donasiForm.addEventListener("submit", function (e) {
+        const nominal = document.getElementById('nominal');
+        if (nominal && parseInt(nominal.value) < 1000) {
+          nominal.value = 10000;
+        }
+      });
+    }
+
     if ('IntersectionObserver' in window) {
       const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -155,12 +207,3 @@ block scripts
         imageObserver.observe(img);
       });
     }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
-      });
-    });
