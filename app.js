@@ -14,6 +14,7 @@ const animeRoutes = require('./routes/anime');
 const adminRoutes = require('./routes/admin');
 const apiRoutes = require('./routes/api');
 const movieRoutes = require('./routes/movies');
+const manhwaRoutes = require('./routes/manhwa');
 
 const cookieConsent = require('./middleware/cookieConsent');
 const adSlots = require('./middleware/adSlots');
@@ -75,6 +76,7 @@ app.use('/anime', animeRoutes);
 app.use('/admin', adminRoutes);
 app.use('/api', apiRoutes);
 app.use('/movies', movieRoutes);
+app.use('/manhwa', manhwaRoutes);
 
 app.use((req, res) => {
   res.status(404).render('error', {

@@ -1,0 +1,84 @@
+extends ../layout
+
+block content
+  div(class="bg-gray-100 dark:bg-gray-800")
+    div(class="container mx-auto px-4 py-8")
+      if genre
+        header(class="mb-8 text-center")
+          h1(class="text-4xl font-bold text-gray-900 dark:text-white mb-2") Genre: #{genre.name}
+
+        if genre.manhwa_list && genre.manhwa_list.length > 0
+          div(id="manhwa-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4")
+            each manhwa in genre.manhwa_list
+              a(href=`/manhwa/detail/${manhwa.id}` class="group")
+                div(class="relative")
+                  img(src=manhwa.cover alt=manhwa.title class="w-full h-64 object-cover rounded-md shadow-lg transform transition-transform duration-300 group-hover:scale-105")
+                  div(class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent rounded-b-md")
+                    h3(class="text-white font-semibold text-sm truncate")= manhwa.title
+                    p(class="text-gray-300 text-xs")= manhwa.status
+
+          div(id="loading-indicator" class="text-center py-8 hidden")
+            p(class="text-gray-500 dark:text-gray-400") Memuat lebih banyak...
+        else
+          div(class="text-center py-16")
+            p(class="text-gray-500 dark:text-gray-400") Tidak ada manhwa ditemukan untuk genre ini.
+      else
+        div(class="text-center py-16")
+          h2(class="text-2xl font-bold") Genre tidak ditemukan
+          p(class="text-gray-600 dark:text-gray-400 mt-2") Maaf, kami tidak dapat menemukan genre ini.
+          a(href="/manhwa/genres" class="mt-4 inline-block bg-primary-600 text-white px-6 py-2 rounded-lg") Kembali ke Daftar Genre
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', function () {
+      let currentPage = 1;
+      let isLoading = false;
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const manhwaGrid = document.getElementById('manhwa-grid');
+      const genreId = !{JSON.stringify(genre.id)};
+
+      function loadMoreManhwa() {
+        if (isLoading) return;
+        isLoading = true;
+        currentPage++;
+        loadingIndicator.classList.remove('hidden');
+
+        fetch(`/api/genre/${genreId}?page=${currentPage}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.manhwa_list && data.manhwa_list.length > 0) {
+              data.manhwa_list.forEach(manhwa => {
+                const link = document.createElement('a');
+                link.href = `/manhwa/detail/${manhwa.id}`;
+                link.className = 'group';
+                link.innerHTML = `
+                  <div class="relative">
+                    <img src="${manhwa.cover}" alt="${manhwa.title}" class="w-full h-64 object-cover rounded-md shadow-lg transform transition-transform duration-300 group-hover:scale-105">
+                    <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent rounded-b-md">
+                      <h3 class="text-white font-semibold text-sm truncate">${manhwa.title}</h3>
+                      <p class="text-gray-300 text-xs">${manhwa.status}</p>
+                    </div>
+                  </div>
+                `;
+                manhwaGrid.appendChild(link);
+              });
+            } else {
+              // No more pages
+              window.removeEventListener('scroll', handleScroll);
+            }
+          })
+          .catch(error => console.error('Error fetching more manhwa:', error))
+          .finally(() => {
+            isLoading = false;
+            loadingIndicator.classList.add('hidden');
+          });
+      }
+
+      function handleScroll() {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+          loadMoreManhwa();
+        }
+      }
+
+      window.addEventListener('scroll', handleScroll);
+    });

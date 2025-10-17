@@ -1,0 +1,58 @@
+extends ../layout
+
+block content
+  div(class="bg-gray-100 dark:bg-gray-800")
+    if manhwa
+      //- Manhwa Detail Hero
+      div(class="relative h-80 bg-cover bg-center" style=`background-image: url('${manhwa.cover}')`)
+        div(class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-transparent")
+
+      div(class="container mx-auto px-4 -mt-20 relative z-10")
+        div(class="flex flex-col md:flex-row items-end md:space-x-6")
+          img(src=manhwa.cover alt=manhwa.title class="w-48 h-auto rounded-lg shadow-xl border-4 border-white dark:border-gray-700")
+          div(class="mt-4 md:mt-0 text-white")
+            h1(class="text-3xl font-bold")= manhwa.title
+            div(class="flex items-center space-x-2 text-sm mt-1")
+              span= manhwa.status
+              span &bull;
+              span= manhwa.rating
+
+      //- Manhwa Info & Chapters
+      div(class="container mx-auto px-4 py-8")
+        div(class="grid grid-cols-1 lg:grid-cols-3 gap-8")
+          div(class="lg:col-span-2")
+            //- Genres
+            if manhwa.genres && manhwa.genres.length > 0
+              div(class="mb-6")
+                div(class="flex flex-wrap gap-2")
+                  each genre in manhwa.genres
+                    a(href=`/manhwa/genre/${genre.id}` class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded-full")= genre.name
+
+            //- Synopsis
+            if manhwa.desc
+              div(class="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-md mb-6")
+                h2(class="text-xl font-bold mb-2") Deskripsi
+                p(class="text-gray-700 dark:text-gray-300 text-sm")= manhwa.desc
+
+            //- Chapter List
+            if manhwa.chapters && manhwa.chapters.length > 0
+              div(class="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-md")
+                h2(class="text-xl font-bold mb-2") Daftar Chapter
+                div(class="max-h-96 overflow-y-auto")
+                  ul
+                    each chapter in manhwa.chapters
+                      li
+                        a(href=`/manhwa/chapter/${chapter.id}` class="block p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors")
+                          div(class="flex justify-between items-center")
+                            span(class="font-medium")= chapter.title
+                            span(class="text-sm text-gray-500")= chapter.release
+
+          //- Sidebar (you can add related manhwa or other content here later)
+          div
+            //- Placeholder for sidebar content
+
+    else
+      div(class="container mx-auto px-4 py-16 text-center")
+        h2(class="text-2xl font-bold") Manhwa tidak ditemukan
+        p(class="text-gray-600 dark:text-gray-400 mt-2") Maaf, kami tidak dapat menemukan detail untuk manhwa ini.
+        a(href="/manhwa" class="mt-4 inline-block bg-primary-600 text-white px-6 py-2 rounded-lg") Kembali ke Manhwa Home

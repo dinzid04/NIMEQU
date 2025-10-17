@@ -1,0 +1,17 @@
+{
+  "status": 200,
+  "data": [
+    {
+      "title": "The World After the Fall",
+      "id": "the-world-after-the-fall",
+      "cover": "https://m.media-amazon.com/images/M/MV5BODRmZDVmNzUtZDVlMy00ZWQwLTg5NGYtMjM2MDA5N2RjOWU3XkEyXkFqcGdeQXVyNTk0MzMzODA@._V1_FMjpg_UX1000_.jpg",
+      "status": "Ongoing"
+    },
+    {
+      "title": "Omniscient Reader's Viewpoint",
+      "id": "omniscient-readers-viewpoint",
+      "cover": "https://m.media-amazon.com/images/M/MV5BMmM4MWZjZTEtM2JlZi00YjA1LWI0ZjUtZTMxZDI4ZDA3MjE4XkEyXkFqcGdeQXVyNjMxNzQ2NTQ@._V1_.jpg",
+      "status": "Ongoing"
+    }
+  ]
+}

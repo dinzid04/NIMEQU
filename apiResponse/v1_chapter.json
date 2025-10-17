@@ -1,0 +1,27 @@
+{
+  "status": 200,
+  "data": {
+    "title": "Chapter 1",
+    "manhwa_title": "The World After the Fall",
+    "manhwa_id": "the-world-after-the-fall",
+    "prev_chapter": null,
+    "next_chapter": {
+      "id": "the-world-after-the-fall-chapter-2",
+      "title": "Chapter 2"
+    },
+    "images": [
+      {
+        "page": 1,
+        "url": "https://placehold.co/800x1200?text=Page+1"
+      },
+      {
+        "page": 2,
+        "url": "https://placehold.co/800x1200?text=Page+2"
+      },
+      {
+        "page": 3,
+        "url": "https://placehold.co/800x1200?text=Page+3"
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "data": {
+    "title": "The World After the Fall",
+    "id": "the-world-after-the-fall",
+    "cover": "https://m.media-amazon.com/images/M/MV5BODRmZDVmNzUtZDVlMy00ZWQwLTg5NGYtMjM2MDA5N2RjOWU3XkEyXkFqcGdeQXVyNTk0MzMzODA@._V1_FMjpg_UX1000_.jpg",
+    "status": "Ongoing",
+    "rating": "9.8",
+    "genres": [
+      {
+        "name": "Action",
+        "id": "action"
+      },
+      {
+        "name": "Fantasy",
+        "id": "fantasy"
+      }
+    ],
+    "desc": "A man who had refused to go back in time, 'Jaehwan'. All his colleagues left for a different world, and he became the only human being left in this world alone. It has been 10 years since he has been fighting against the monsters of the dead in this world. A ridiculous world that has become a game for the 'Tower,' a being from another dimension. Jaehwan, who has reached the end of his life, tries to enter the tower...",
+    "chapters": [
+      {
+        "title": "Chapter 1",
+        "id": "the-world-after-the-fall-chapter-1",
+        "release": "1 day ago"
+      },
+      {
+        "title": "Chapter 2",
+        "id": "the-world-after-the-fall-chapter-2",
+        "release": "2 days ago"
+      }
+    ]
+  }
+}

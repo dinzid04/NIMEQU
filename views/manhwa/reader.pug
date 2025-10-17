@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+  div(class="bg-black text-white")
+    if chapter
+      //- Header
+      div(class="sticky top-0 bg-gray-900/80 backdrop-blur-lg z-20")
+        div(class="container mx-auto px-4 py-3 flex justify-between items-center")
+          a(href=`/manhwa/detail/${chapter.manhwa_id}` class="text-lg font-bold hover:text-primary-400")= chapter.manhwa_title
+          div(class="text-lg")= chapter.title
+
+      //- Chapter Images
+      div(class="container mx-auto px-1 md:px-0")
+        div(class="max-w-3xl mx-auto")
+          each image in chapter.images
+            img(src=image.url alt=`Page ${image.page}` class="w-full")
+
+      //- Navigation
+      div(class="sticky bottom-16 bg-gray-900/80 backdrop-blur-lg z-20")
+        div(class="container mx-auto px-4 py-3")
+          div(class="flex justify-between items-center")
+            if chapter.prev_chapter
+              a(href=`/manhwa/chapter/${chapter.prev_chapter.id}` class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-lg") Previous
+            else
+              div(class="bg-gray-700 text-white font-bold py-2 px-4 rounded-lg opacity-50 cursor-not-allowed") Previous
+
+            if chapter.next_chapter
+              a(href=`/manhwa/chapter/${chapter.next_chapter.id}` class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-lg") Next
+            else
+              div(class="bg-gray-700 text-white font-bold py-2 px-4 rounded-lg opacity-50 cursor-not-allowed") Next
+
+    else
+      div(class="container mx-auto px-4 py-16 text-center")
+        h2(class="text-2xl font-bold") Chapter tidak ditemukan
+        p(class="text-gray-400 mt-2") Maaf, kami tidak dapat menemukan chapter ini.
+        a(href="/manhwa" class="mt-4 inline-block bg-primary-600 text-white px-6 py-2 rounded-lg") Kembali ke Manhwa Home

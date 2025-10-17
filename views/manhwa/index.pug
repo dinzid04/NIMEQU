@@ -1,0 +1,101 @@
+extends ../layout
+
+block content
+  div(class="content-wrapper")
+    //- Loading Skeleton
+    div(id="loading-skeleton" class="container mx-auto px-4 py-8")
+      div(class="h-96 shimmer rounded-lg mb-8")
+      div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4")
+        - for (let i = 0; i < 18; i++)
+          div
+            div(class="h-64 shimmer rounded-md")
+            div(class="h-4 mt-2 shimmer rounded-md")
+            div(class="h-3 mt-1 w-1/2 shimmer rounded-md")
+
+    //- Actual Content (Initially Hidden)
+    div(id="actual-content" class="hidden")
+      div(class="bg-gray-100 dark:bg-gray-800")
+        //- Hero Slider
+        if recommendations && recommendations.length > 0
+          section(class="swiper manhwa-hero-slider")
+            div(class="swiper-wrapper")
+              each manhwa in recommendations
+                a(href=`/manhwa/detail/${manhwa.id}` class="swiper-slide relative h-80 md:h-96 bg-cover bg-center text-white" style=`background-image: url('${manhwa.cover}')`)
+                  div(class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent")
+                  div(class="container mx-auto px-4 relative z-10 flex flex-col justify-end h-full pb-10")
+                    h2(class="text-3xl font-bold")= manhwa.title
+                    p(class="text-sm text-gray-300")= manhwa.status
+            div(class="swiper-pagination")
+
+        div(class="container mx-auto px-4 py-8")
+          //- New Manhwa Section
+          if newManhwa && newManhwa.length > 0
+            section(class="mb-8")
+              div(class="flex justify-between items-center mb-4")
+                h2(class="text-2xl font-bold text-gray-900 dark:text-white") 📖 Terbaru
+                a(href="/manhwa/new" class="text-primary-600 dark:text-primary-400 hover:underline") Lihat Semua
+              div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4")
+                each manhwa in newManhwa
+                  a(href=`/manhwa/detail/${manhwa.id}` class="group")
+                    div(class="relative")
+                      img(src=manhwa.cover alt=manhwa.title class="w-full h-64 object-cover rounded-md shadow-lg transform transition-transform duration-300 group-hover:scale-105")
+                      div(class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent rounded-b-md")
+                        h3(class="text-white font-semibold text-sm truncate")= manhwa.title
+                        p(class="text-gray-300 text-xs")= manhwa.status
+
+      //- Popular Manhwa Section
+      if popularManhwa && popularManhwa.length > 0
+        section(class="mb-8")
+          div(class="flex justify-between items-center mb-4")
+            h2(class="text-2xl font-bold text-gray-900 dark:text-white") 🔥 Populer
+            a(href="/manhwa/popular" class="text-primary-600 dark:text-primary-400 hover:underline") Lihat Semua
+          div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4")
+            each manhwa in popularManhwa
+              a(href=`/manhwa/detail/${manhwa.id}` class="group")
+                div(class="relative")
+                  img(src=manhwa.cover alt=manhwa.title class="w-full h-64 object-cover rounded-md shadow-lg transform transition-transform duration-300 group-hover:scale-105")
+                  div(class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent rounded-b-md")
+                    h3(class="text-white font-semibold text-sm truncate")= manhwa.title
+                    p(class="text-gray-300 text-xs")= manhwa.status
+
+      //- Top Rated Manhwa Section
+      if topManhwa && topManhwa.length > 0
+        section(class="mb-8")
+          div(class="flex justify-between items-center mb-4")
+            h2(class="text-2xl font-bold text-gray-900 dark:text-white") 🏆 Top Rated
+            a(href="/manhwa/top" class="text-primary-600 dark:text-primary-400 hover:underline") Lihat Semua
+          div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4")
+            each manhwa in topManhwa
+              a(href=`/manhwa/detail/${manhwa.id}` class="group")
+                div(class="relative")
+                  img(src=manhwa.cover alt=manhwa.title class="w-full h-64 object-cover rounded-md shadow-lg transform transition-transform duration-300 group-hover:scale-105")
+                  div(class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent rounded-b-md")
+                    h3(class="text-white font-semibold text-sm truncate")= manhwa.title
+                    p(class="text-gray-300 text-xs")= manhwa.status
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', function () {
+      const skeleton = document.getElementById('loading-skeleton');
+      const content = document.getElementById('actual-content');
+
+      // Hide skeleton and show content
+      skeleton.style.display = 'none';
+      content.classList.remove('hidden');
+
+      const swiper = new Swiper('.manhwa-hero-slider', {
+        loop: true,
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        effect: 'fade',
+        fadeEffect: {
+          crossFade: true
+        },
+      });
+    });

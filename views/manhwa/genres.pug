@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  div(class="bg-gray-100 dark:bg-gray-800")
+    div(class="container mx-auto px-4 py-8")
+      header(class="mb-8 text-center")
+        h1(class="text-4xl font-bold text-gray-900 dark:text-white mb-2") Genre Manhwa
+        p(class="text-lg text-gray-600 dark:text-gray-400") Temukan manhwa berdasarkan genre yang kamu sukai.
+
+      if genres && genres.length > 0
+        div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4")
+          each genre in genres
+            a(href=`/manhwa/genre/${genre.id}` class="group block bg-white dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 p-4 text-center")
+              h3(class="font-semibold text-gray-800 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors")= genre.name
+      else
+        div(class="text-center py-16")
+          p(class="text-gray-500 dark:text-gray-400") Genre tidak ditemukan.
