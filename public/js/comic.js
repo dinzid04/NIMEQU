@@ -316,39 +316,7 @@ function updateSliderPosition() {
 
 // Populate latest grid
 function populateLatestGrid(items) {
-    if (!latestGrid) return;
-    latestGrid.innerHTML = '';
-
-    items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-
-        const imageUrl = item.imageSrc;
-        const chapterInfo = item.chapter || 'No chapters';
-        const rating = item.rating || '-';
-        const title = item.title || 'Untitled';
-
-        card.innerHTML = `
-            <div class="card-image">
-                <img src="${imageUrl}" alt="${title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDIwMCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik04MCAxMDBIMTIwVjEzMEg4MFYxMDBaIiBmaWxsPSIjQ0VDRUNFIi8+CjxwYXRoIGQ9Ik02MCA3MEgxNDBWMTYwSDYwVjcwWiIgZmlsbD0iI0NFQ0VDRSIvPgo8L3N2Zz4K'">
-                <div class="card-rating">⭐ ${rating}</div>
-            </div>
-            <div class="card-content">
-                <div class="card-title">${title}</div>
-                <div class="card-info">
-                    <span>${chapterInfo}</span>
-                </div>
-            </div>
-        `;
-
-        card.addEventListener('click', () => {
-            currentManhwaSlug = item.slug;
-            navigateToPage('detail');
-            loadManhwaDetail(item.slug);
-        });
-
-        latestGrid.appendChild(card);
-    });
+    populateGrid(latestGrid, items);
 }
 
 // Populate generic grid
@@ -357,28 +325,32 @@ function populateGrid(grid, items) {
     grid.innerHTML = '';
 
     items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-
         const imageUrl = item.imageSrc || item.image;
-        const chapterInfo = item.latestChapter || item.chapter || '';
-        const rating = item.rating || '-';
+        const chapterInfo = item.latestChapter || item.chapter || 'N/A';
+        const rating = item.rating || '??';
         const title = item.title || 'Untitled';
 
+        const card = document.createElement('div');
+        card.className = 'anime-card group bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl';
+
         card.innerHTML = `
-            <div class="card-image">
-                <img src="${imageUrl}" alt="${title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDIwMCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik04MCAxMDBIMTIwVjEzMEg4MFYxMDBaIiBmaWxsPSIjQ0VDRUNFIi8+CjxwYXRoIGQ9Ik02MCA3MEgxNDBWMTYwSDYwVjcwWiIgZmlsbD0iI0NFQ0VDRSIvPgo8L3N2Zz4K'">
-                <div class="card-rating">⭐ ${rating}</div>
-            </div>
-            <div class="card-content">
-                <div class="card-title">${title}</div>
-                <div class="card-info">
-                    <span>${chapterInfo}</span>
+            <a href="#" class="block relative">
+                <div class="relative w-full h-72">
+                    <img src="${imageUrl}" alt="Poster for ${title}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=No+Image';">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"></div>
+                    <div class="absolute top-2 right-2 bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-md">
+                        <span>⭐ ${rating}</span>
+                    </div>
                 </div>
-            </div>
+                <div class="p-4">
+                    <h3 class="text-md font-semibold text-gray-800 dark:text-white truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">${title}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">${chapterInfo}</p>
+                </div>
+            </a>
         `;
 
-        card.addEventListener('click', () => {
+        card.querySelector('a').addEventListener('click', (e) => {
+            e.preventDefault();
             currentManhwaSlug = item.slug;
             navigateToPage('detail');
             loadManhwaDetail(item.slug);
