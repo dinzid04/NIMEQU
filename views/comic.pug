@@ -5,437 +5,94 @@ html(lang="id" class="scroll-smooth")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     title= "COMICKU - Baca Manhwa Gratis"
     link(rel="icon" href="/images/favicon.ico")
-    link(rel="stylesheet" href="https://cdn.tailwindcss.com/3.4.17")
+    script(src="https://cdn.tailwindcss.com/3.4.17")
     link(rel="stylesheet", href="/css/comic.css")
     style.
-      /* Custom button styles */
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.375rem 0.75rem;
-        font-size: 0.75rem;
-        font-weight: 500;
-        border-radius: 0.5rem;
-        border: none;
-        cursor: pointer;
-        transition: all 0.2s;
-        text-decoration: none;
-      }
-      
-      .btn:focus {
-        outline: 2px solid transparent;
-        outline-offset: 2px;
-        ring: 2px;
-      }
-      
-      .btn-primary {
-        background-color: #7c3aed;
-        color: white;
-      }
-      
-      .btn-primary:hover {
-        background-color: #6d28d9;
-      }
-      
-      .btn-primary:focus {
-        ring-color: #8b5cf6;
-      }
-      
-      .btn-secondary {
-        background-color: #e5e7eb;
-        color: #374151;
-        border: 1px solid #d1d5db;
-      }
-      
-      .dark .btn-secondary {
-        background-color: #374151;
-        color: #e5e7eb;
-        border-color: #4b5563;
-      }
-      
-      .btn-secondary:hover {
-        background-color: #d1d5db;
-      }
-      
-      .dark .btn-secondary:hover {
-        background-color: #4b5563;
-      }
-      
-      .btn-secondary:focus {
-        ring-color: #9ca3af;
-      }
-      
-      /* Search input styles */
-      .search-input {
-        width: 100%;
-        padding: 0.5rem 1rem 0.5rem 2.5rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.75rem;
-        background-color: white;
-        color: #111827;
-        font-size: 0.875rem;
-        transition: all 0.2s;
-      }
-      
-      .dark .search-input {
-        border-color: #4b5563;
-        background-color: #374151;
-        color: #f9fafb;
-      }
-      
-      .search-input:focus {
-        outline: none;
-        border-color: #8b5cf6;
-        box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.1);
-      }
-      
-      /* Header styles */
-      .header-nav {
-        padding: 0.75rem 2rem;
-      }
-      
-      .logo {
-        height: 2rem;
-      }
-      
-      .logo-text {
-        font-size: 1.25rem;
-        font-weight: bold;
-      }
-      
-      /* Dark mode toggle */
-      .theme-toggle {
-        padding: 0.375rem;
-        border-radius: 0.5rem;
-        background-color: #f3f4f6;
-        border: none;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      
-      .dark .theme-toggle {
-        background-color: #4b5563;
-      }
-      
-      .theme-toggle:hover {
-        background-color: #e5e7eb;
-      }
-      
-      .dark .theme-toggle:hover {
-        background-color: #6b7280;
-      }
-      
-      .theme-icon {
-        width: 1rem;
-        height: 1rem;
-      }
-      
-      /* Grid layouts */
-      .comic-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1rem;
-      }
-      
-      @media (min-width: 768px) {
-        .comic-grid {
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-        }
-      }
-      
-      @media (min-width: 1024px) {
-        .comic-grid {
-          grid-template-columns: repeat(6, minmax(0, 1fr));
-        }
-      }
-      
-      .comic-card {
-        background: white;
-        border-radius: 0.75rem;
-        overflow: hidden;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        transition: all 0.3s;
-      }
-      
-      .dark .comic-card {
-        background: #374151;
-      }
-      
-      .comic-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
-      }
-      
-      .comic-image {
-        width: 100%;
-        height: 12rem;
-        object-fit: cover;
-      }
-      
-      .comic-content {
-        padding: 0.75rem;
-      }
-      
-      .comic-title {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: #111827;
-        margin-bottom: 0.25rem;
-        line-height: 1.25;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      
-      .dark .comic-title {
-        color: #f9fafb;
-      }
-      
-      .comic-chapter {
-        font-size: 0.75rem;
-        color: #6b7280;
-      }
-      
-      .dark .comic-chapter {
-        color: #9ca3af;
-      }
-      
-      /* Section styles */
-      .section {
-        margin-top: 2rem;
-      }
-      
-      .section-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-      }
-      
-      .section-title {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: #111827;
-      }
-      
-      .dark .section-title {
-        color: #f9fafb;
-      }
-      
-      .section-more {
-        font-size: 0.75rem;
-        color: #7c3aed;
-        font-weight: 500;
-        text-decoration: none;
-        transition: color 0.2s;
-      }
-      
-      .section-more:hover {
-        color: #5b21b6;
-      }
-      
-      .dark .section-more {
-        color: #a78bfa;
-      }
-      
-      .dark .section-more:hover {
-        color: #ddd6fe;
-      }
-      
-      /* Slider styles */
-      .slider {
-        position: relative;
-        overflow: hidden;
-        border-radius: 0.75rem;
-        margin-bottom: 2rem;
-      }
-      
-      .slider-container {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-      }
-      
-      .slide {
-        flex-shrink: 0;
-        width: 100%;
-        position: relative;
-      }
-      
-      .slide-image {
-        width: 100%;
-        height: 16rem;
-        object-fit: cover;
-      }
-      
-      .slide-content {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-        padding: 1rem;
-        color: white;
-      }
-      
-      .slide-title {
-        font-size: 1.125rem;
-        font-weight: bold;
-        margin-bottom: 0.25rem;
-      }
-      
-      .slide-info {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.875rem;
-        opacity: 0.9;
-      }
-      
-      .slider-nav {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 2rem;
-        height: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        z-index: 10;
-      }
-      
-      .slider-nav:hover {
-        background: rgba(0, 0, 0, 0.7);
-      }
-      
-      .slider-prev {
-        left: 0.5rem;
-      }
-      
-      .slider-next {
-        right: 0.5rem;
+      body {
+        padding-top: 68px; /* Adjust this value based on the actual height of your sticky header */
       }
 
-    script.
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              primary: { 
-                50: '#f5f3ff', 
-                100: '#ede9fe', 
-                200: '#ddd6fe', 
-                300: '#c4b5fd', 
-                400: '#a78bfa', 
-                500: '#8b5cf6', 
-                600: '#7c3aed', 
-                700: '#6d28d9', 
-                800: '#5b21b6', 
-                900: '#4c1d95' 
-              }
-            },
-            fontFamily: { 
-              'sans': ['Inter', 'system-ui', 'sans-serif'] 
-            }
-          }
-        }
-      }
-
-  body(class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased")
-    // Header
-    header(class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50")
-      nav(class="header-nav")
+  body(class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans")
+    header(class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 fixed top-0 left-0 right-0 z-50")
+      nav(class="container mx-auto px-8 py-4")
         div(class="flex items-center justify-between")
-          // Logo
-          a(href="/" class="flex items-center space-x-2")
-            img(src="/images/logo.png" alt="ANIMAQU" class="logo w-auto")
-            span(class="logo-text text-gray-800 dark:text-white") ANIMAQU
+          a(href="/" class="flex items-center")
+            img(src="/images/logo.png" alt="ANIMAQU" class="h-8 w-auto rounded-sm")
+            span(class="ml-3 text-xl font-bold text-gray-800 dark:text-white") ANIMAQU
 
-          // Search Bar - Center
-          div(class="flex-1 max-w-lg mx-4")
+          div(class="flex-1 max-w-md mx-6 relative")
             div(class="relative")
               input(
                 type="text"
                 placeholder="Cari komik..."
-                class="search-input"
+                class="search-input w-full px-4 py-2 pl-10 pr-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
                 autocomplete="off"
               )
-              div(class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400")
+              div(class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500")
                 svg(class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24")
                   path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z")
 
-          // Navigation Buttons - Right
-          div(class="flex items-center space-x-2")
-            a(href="/" class="btn btn-secondary") Kembali
-            button(id="darkModeToggle" class="theme-toggle")
-              svg(id="sunIcon" class="theme-icon text-yellow-500" fill="currentColor" viewBox="0 0 20 20")
+          div(class="flex items-center space-x-4")
+            a(href="/" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400") Kembali
+            button(id="darkModeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600")
+              svg(id="sunIcon" class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20")
                 path(d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z")
-              svg(id="moonIcon" class="theme-icon text-gray-300 hidden" fill="currentColor" viewBox="0 0 20 20")
+              svg(id="moonIcon" class="w-5 h-5 text-gray-300 hidden" fill="currentColor" viewBox="0 0 20 20")
                 path(d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z")
 
-    // Main Content
-    main(class="min-h-screen pt-16")
-      div(class="container mx-auto px-4 py-6")
-        // Home Page
+    main(class="min-h-screen")
+      .container.mx-auto.px-4.py-8
+        // Home Page Content
         #homePage
-          // Slider Section
+          // Slider/Banner
           section.slider
             #sliderContainer.slider-container
             button#sliderPrev.slider-nav.slider-prev ❮
             button#sliderNext.slider-nav.slider-next ❯
 
-          // Latest Updates Section
-          section.section
-            .section-header
-              h2.section-title 📖 Terbaru
-              a.section-more(href="#", onclick="navigateToPage('latest'); return false;") Lihat Semua
-            #latestGrid.comic-grid
+          // Latest Updates
+          section.mt-8
+            .section-title
+              h2.text-2xl.font-bold 📖 Terbaru
+              a.view-all(href="#", onclick="navigateToPage('latest'); return false;") Lihat Semua
+            #latestGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4.mt-4
 
-          // Popular Section
-          section.section
-            .section-header
-              h2.section-title 🔥 Populer
-              a.section-more(href="#", onclick="navigateToPage('popular'); return false;") Lihat Semua
-            #popularGrid.comic-grid
+          // Popular
+          section.mt-8
+            .section-title
+              h2.text-2xl.font-bold 🔥 Populer
+              a.view-all(href="#", onclick="navigateToPage('popular'); return false;") Lihat Semua
+            #popularGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4.mt-4
 
-          // Top Rated Section
-          section.section
-            .section-header
-              h2.section-title 🏆 Top Rated
-              a.section-more(href="#", onclick="navigateToPage('top-weekly'); return false;") Lihat Semua
-            #topRatedGrid.comic-grid
+          // Top Rated
+          section.mt-8
+            .section-title
+              h2.text-2xl.font-bold 🏆 Top Rated
+              a.view-all(href="#", onclick="navigateToPage('top-weekly'); return false;") Lihat Semua
+            #topRatedGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4.mt-4
 
-        // Search Page
+        // Search Page Content
         #searchPage(style="display: none;")
-          .section-header
-            h1.section-title Hasil Pencarian
-          #searchInfo.mb-4.text-sm.text-gray-600.dark:text-gray-400
-          #searchGrid.comic-grid
+          h1.text-3xl.font-bold.mb-4 Hasil Pencarian
+          #searchInfo.search-info.mb-4
+          #searchGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4
 
-        // Detail Page
+        // Detail Page Content
         #detailPage(style="display: none;")
           .detail-container
 
-        // Reader Page
+        // Chapter Reader Content
         #readerPage(style="display: none;")
           .reader-container
-            .section-header
-              #readerTitle.section-title
-              .flex.space-x-2
-                button#prevChapter.btn.btn-secondary ❮ Prev
-                button#nextChapter.btn.btn-secondary Next ❯
-            #readerContent.mt-4
+            .reader-header
+              #readerTitle.reader-title
+              .reader-nav
+                button#prevChapter.btn.btn-secondary ❮ Previous Chapter
+                button#nextChapter.btn.btn-secondary Next Chapter ❯
+            #readerContent.reader-content
 
-    // Footer
     footer(class="bg-gray-900 dark:bg-gray-950 text-white mt-12")
-      div(class="container mx-auto px-4 py-6 text-center")
-        p(class="text-sm") &copy; 2023 COMICKU. All rights reserved.
+      div(class="container mx-auto px-4 py-8 text-center")
+        p &copy; 2023 COMICKU. All rights reserved.
 
     script(src="/js/comic.js")

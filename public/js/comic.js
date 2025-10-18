@@ -16,6 +16,8 @@ const searchPage = document.getElementById('searchPage');
 const detailPage = document.getElementById('detailPage');
 const readerPage = document.getElementById('readerPage');
 const themeToggle = document.getElementById('darkModeToggle');
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
 const searchInput = document.querySelector('.search-input');
 const sliderContainer = document.getElementById('sliderContainer');
 const sliderPrev = document.getElementById('sliderPrev');
@@ -40,34 +42,12 @@ function init() {
     // Set up event listeners
     setupEventListeners();
 
-    // Check for dark mode preference
-    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-        if(moonIcon) moonIcon.classList.remove('hidden');
-        if(sunIcon) sunIcon.classList.add('hidden');
-    }
-
     // Handle routing based on URL
     handleRouting();
 }
 
 // Set up event listeners
 function setupEventListeners() {
-    // Theme toggle
-    if(themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.setItem('theme', 'dark');
-                if(moonIcon) moonIcon.classList.remove('hidden');
-                if(sunIcon) sunIcon.classList.add('hidden');
-            } else {
-                localStorage.setItem('theme', 'light');
-                if(moonIcon) moonIcon.classList.add('hidden');
-                if(sunIcon) sunIcon.classList.remove('hidden');
-            }
-        });
-    }
 
     // Search functionality
     if (searchInput) {
