@@ -8,28 +8,34 @@ html(lang="id" class="scroll-smooth")
     link(rel="stylesheet" href="https://cdn.tailwindcss.com/3.4.17")
     link(rel="stylesheet", href="/css/comic.css")
     style.
-      /* Custom styles for smaller, more aesthetic buttons */
+      /* Custom button styles */
       .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         padding: 0.375rem 0.75rem;
         font-size: 0.75rem;
         font-weight: 500;
         border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
         transition: all 0.2s;
-        outline: none;
+        text-decoration: none;
       }
       
       .btn:focus {
-        ring-width: 2px;
-        ring-offset-width: 2px;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        ring: 2px;
       }
       
       .btn-primary {
-        background-color: #8b5cf6;
+        background-color: #7c3aed;
         color: white;
       }
       
       .btn-primary:hover {
-        background-color: #7c3aed;
+        background-color: #6d28d9;
       }
       
       .btn-primary:focus {
@@ -38,12 +44,14 @@ html(lang="id" class="scroll-smooth")
       
       .btn-secondary {
         background-color: #e5e7eb;
-        color: #1f2937;
+        color: #374151;
+        border: 1px solid #d1d5db;
       }
       
       .dark .btn-secondary {
         background-color: #374151;
         color: #e5e7eb;
+        border-color: #4b5563;
       }
       
       .btn-secondary:hover {
@@ -55,16 +63,15 @@ html(lang="id" class="scroll-smooth")
       }
       
       .btn-secondary:focus {
-        ring-color: #6b7280;
+        ring-color: #9ca3af;
       }
       
+      /* Search input styles */
       .search-input {
         width: 100%;
-        padding: 0.375rem 0.75rem;
-        padding-left: 2.25rem;
-        padding-right: 1rem;
+        padding: 0.5rem 1rem 0.5rem 2.5rem;
         border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
+        border-radius: 0.75rem;
         background-color: white;
         color: #111827;
         font-size: 0.875rem;
@@ -78,93 +85,173 @@ html(lang="id" class="scroll-smooth")
       }
       
       .search-input:focus {
-        ring-width: 2px;
-        ring-color: #8b5cf6;
-        border-color: transparent;
+        outline: none;
+        border-color: #8b5cf6;
+        box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.1);
       }
       
-      .section-title {
+      /* Header styles */
+      .header-nav {
+        padding: 0.75rem 2rem;
+      }
+      
+      .logo {
+        height: 2rem;
+      }
+      
+      .logo-text {
+        font-size: 1.25rem;
+        font-weight: bold;
+      }
+      
+      /* Dark mode toggle */
+      .theme-toggle {
+        padding: 0.375rem;
+        border-radius: 0.5rem;
+        background-color: #f3f4f6;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      
+      .dark .theme-toggle {
+        background-color: #4b5563;
+      }
+      
+      .theme-toggle:hover {
+        background-color: #e5e7eb;
+      }
+      
+      .dark .theme-toggle:hover {
+        background-color: #6b7280;
+      }
+      
+      .theme-icon {
+        width: 1rem;
+        height: 1rem;
+      }
+      
+      /* Grid layouts */
+      .comic-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+      
+      @media (min-width: 768px) {
+        .comic-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+      }
+      
+      @media (min-width: 1024px) {
+        .comic-grid {
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+      }
+      
+      .comic-card {
+        background: white;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        transition: all 0.3s;
+      }
+      
+      .dark .comic-card {
+        background: #374151;
+      }
+      
+      .comic-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+      }
+      
+      .comic-image {
+        width: 100%;
+        height: 12rem;
+        object-fit: cover;
+      }
+      
+      .comic-content {
+        padding: 0.75rem;
+      }
+      
+      .comic-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 0.25rem;
+        line-height: 1.25;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      
+      .dark .comic-title {
+        color: #f9fafb;
+      }
+      
+      .comic-chapter {
+        font-size: 0.75rem;
+        color: #6b7280;
+      }
+      
+      .dark .comic-chapter {
+        color: #9ca3af;
+      }
+      
+      /* Section styles */
+      .section {
+        margin-top: 2rem;
+      }
+      
+      .section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 1rem;
       }
       
-      .section-title h2 {
+      .section-title {
         font-size: 1.25rem;
         font-weight: bold;
+        color: #111827;
       }
       
-      .slider-nav {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
-        border-radius: 9999px;
-        width: 2rem;
-        height: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.875rem;
-        transition: all 0.2s;
-        z-index: 10;
+      .dark .section-title {
+        color: #f9fafb;
       }
       
-      .slider-nav:hover {
-        background-color: rgba(0, 0, 0, 0.7);
-      }
-      
-      .slider-prev {
-        left: 0.5rem;
-      }
-      
-      .slider-next {
-        right: 0.5rem;
-      }
-      
-      .view-all {
+      .section-more {
         font-size: 0.75rem;
-        font-weight: 500;
         color: #7c3aed;
+        font-weight: 500;
+        text-decoration: none;
         transition: color 0.2s;
       }
       
-      .dark .view-all {
-        color: #a78bfa;
-      }
-      
-      .view-all:hover {
+      .section-more:hover {
         color: #5b21b6;
       }
       
-      .dark .view-all:hover {
+      .dark .section-more {
+        color: #a78bfa;
+      }
+      
+      .dark .section-more:hover {
         color: #ddd6fe;
       }
       
-      /* Skeleton loading styles */
-      .skeleton {
-        background-color: #e5e7eb;
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        border-radius: 0.375rem;
-      }
-      
-      .dark .skeleton {
-        background-color: #374151;
-      }
-      
-      .skeleton-slide {
-        height: 16rem;
-        width: 100%;
-      }
-      
-      .skeleton-card {
-        height: 18rem;
-        width: 100%;
-      }
-      
       /* Slider styles */
+      .slider {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.75rem;
+        margin-bottom: 2rem;
+      }
+      
       .slider-container {
         display: flex;
         transition: transform 0.5s ease-in-out;
@@ -176,11 +263,10 @@ html(lang="id" class="scroll-smooth")
         position: relative;
       }
       
-      .slide img {
+      .slide-image {
         width: 100%;
         height: 16rem;
         object-fit: cover;
-        border-radius: 0.5rem;
       }
       
       .slide-content {
@@ -191,270 +277,49 @@ html(lang="id" class="scroll-smooth")
         background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
         padding: 1rem;
         color: white;
-        border-bottom-left-radius: 0.5rem;
-        border-bottom-right-radius: 0.5rem;
       }
       
       .slide-title {
         font-size: 1.125rem;
         font-weight: bold;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        margin-bottom: 0.25rem;
       }
       
       .slide-info {
         display: flex;
         justify-content: space-between;
         font-size: 0.875rem;
-        margin-top: 0.25rem;
+        opacity: 0.9;
       }
       
-      /* Card styles */
-      .anime-card {
-        background-color: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        overflow: hidden;
-        transform: translateY(0);
-        transition: all 0.3s;
-      }
-      
-      .dark .anime-card {
-        background-color: #374151;
-      }
-      
-      .anime-card:hover {
-        transform: translateY(-0.25rem);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      }
-      
-      /* Detail page styles */
-      .detail-header {
+      .slider-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
         display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-      }
-      
-      @media (min-width: 768px) {
-        .detail-header {
-          flex-direction: row;
-        }
-      }
-      
-      .detail-cover {
-        width: 100%;
-      }
-      
-      @media (min-width: 768px) {
-        .detail-cover {
-          width: 33.333333%;
-        }
-      }
-      
-      .detail-cover img {
-        width: 100%;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      }
-      
-      .detail-info {
-        width: 100%;
-      }
-      
-      @media (min-width: 768px) {
-        .detail-info {
-          width: 66.666667%;
-        }
-      }
-      
-      .detail-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-      }
-      
-      .detail-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-bottom: 1rem;
-        font-size: 0.875rem;
-        color: #6b7280;
-      }
-      
-      .dark .detail-meta {
-        color: #9ca3af;
-      }
-      
-      .detail-genres {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-      }
-      
-      .genre-tag {
-        background-color: #ede9fe;
-        color: #5b21b6;
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.25rem;
-        font-size: 0.75rem;
-      }
-      
-      .dark .genre-tag {
-        background-color: #4c1d95;
-        color: #ddd6fe;
-      }
-      
-      .detail-synopsis {
-        margin-bottom: 1.5rem;
-      }
-      
-      .detail-synopsis p {
-        color: #374151;
-        line-height: 1.625;
-      }
-      
-      .dark .detail-synopsis p {
-        color: #d1d5db;
-      }
-      
-      .detail-actions {
-        display: flex;
-        gap: 0.75rem;
-        margin-bottom: 1rem;
-      }
-      
-      .chapters-list {
-        background-color: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        padding: 1rem;
-      }
-      
-      .dark .chapters-list {
-        background-color: #374151;
-      }
-      
-      .chapters-header {
-        font-size: 1.125rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-      }
-      
-      .chapter-item {
-        display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding: 0.75rem;
-        border-bottom: 1px solid #e5e7eb;
+        justify-content: center;
         cursor: pointer;
         transition: background-color 0.2s;
+        z-index: 10;
       }
       
-      .dark .chapter-item {
-        border-bottom-color: #4b5563;
+      .slider-nav:hover {
+        background: rgba(0, 0, 0, 0.7);
       }
       
-      .chapter-item:hover {
-        background-color: #f9fafb;
+      .slider-prev {
+        left: 0.5rem;
       }
       
-      .dark .chapter-item:hover {
-        background-color: #4b5563;
-      }
-      
-      .chapter-date {
-        font-size: 0.875rem;
-        color: #6b7280;
-      }
-      
-      .dark .chapter-date {
-        color: #9ca3af;
-      }
-      
-      /* Reader styles */
-      .reader-container {
-        max-width: 56rem;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      
-      .reader-header {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-        gap: 1rem;
-      }
-      
-      @media (min-width: 640px) {
-        .reader-header {
-          flex-direction: row;
-        }
-      }
-      
-      .reader-title {
-        font-size: 1.25rem;
-        font-weight: bold;
-        text-align: center;
-      }
-      
-      @media (min-width: 640px) {
-        .reader-title {
-          text-align: left;
-        }
-      }
-      
-      .reader-nav {
-        display: flex;
-        gap: 0.5rem;
-      }
-      
-      .reader-content {
-        background-color: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        padding: 1rem;
-      }
-      
-      .dark .reader-content {
-        background-color: #374151;
-      }
-      
-      .reader-image {
-        width: 100%;
-        margin-bottom: 1rem;
-        border-radius: 0.375rem;
-      }
-      
-      /* Error state */
-      .error-state {
-        text-align: center;
-        padding: 3rem 0;
-      }
-      
-      .error-icon {
-        font-size: 2.25rem;
-        margin-bottom: 1rem;
-      }
-      
-      .error-title {
-        font-size: 1.25rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-      }
-      
-      .error-message {
-        color: #6b7280;
-        margin-bottom: 1rem;
-      }
-      
-      .dark .error-message {
-        color: #9ca3af;
+      .slider-next {
+        right: 0.5rem;
       }
 
     script.
@@ -463,23 +328,38 @@ html(lang="id" class="scroll-smooth")
         theme: {
           extend: {
             colors: {
-              primary: { 50: '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe', 300: '#c4b5fd', 400: '#a78bfa', 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9', 800: '#5b21b6', 900: '#4c1d95' }
+              primary: { 
+                50: '#f5f3ff', 
+                100: '#ede9fe', 
+                200: '#ddd6fe', 
+                300: '#c4b5fd', 
+                400: '#a78bfa', 
+                500: '#8b5cf6', 
+                600: '#7c3aed', 
+                700: '#6d28d9', 
+                800: '#5b21b6', 
+                900: '#4c1d95' 
+              }
             },
-            fontFamily: { 'sans': ['Inter', 'system-ui', 'sans-serif'] }
+            fontFamily: { 
+              'sans': ['Inter', 'system-ui', 'sans-serif'] 
+            }
           }
         }
       }
 
-  body(class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans")
-    header(class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 rounded-b-lg")
-      nav(class="container mx-auto px-8 py-3")
+  body(class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased")
+    // Header
+    header(class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50")
+      nav(class="header-nav")
         div(class="flex items-center justify-between")
-          a(href="/" class="flex items-center")
-            img(src="/images/logo.png" alt="ANIMAQU" class="h-7 w-auto rounded-sm")
-            span(class="ml-2 text-lg font-bold text-gray-800 dark:text-white") ANIMAQU
+          // Logo
+          a(href="/" class="flex items-center space-x-2")
+            img(src="/images/logo.png" alt="ANIMAQU" class="logo w-auto")
+            span(class="logo-text text-gray-800 dark:text-white") ANIMAQU
 
-          //- Search Bar for Comic Page
-          div(class="flex-1 max-w-md mx-4 relative")
+          // Search Bar - Center
+          div(class="flex-1 max-w-lg mx-4")
             div(class="relative")
               input(
                 type="text"
@@ -487,75 +367,75 @@ html(lang="id" class="scroll-smooth")
                 class="search-input"
                 autocomplete="off"
               )
-              div(class="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500")
-                svg(class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+              div(class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400")
+                svg(class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24")
                   path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z")
 
-          div(class="flex items-center space-x-3")
-            a(href="/" class="btn btn-secondary text-xs px-3 py-1.5") Kembali ke Anime
-            button(id="darkModeToggle" class="p-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200")
-              svg(id="sunIcon" class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20")
+          // Navigation Buttons - Right
+          div(class="flex items-center space-x-2")
+            a(href="/" class="btn btn-secondary") Kembali
+            button(id="darkModeToggle" class="theme-toggle")
+              svg(id="sunIcon" class="theme-icon text-yellow-500" fill="currentColor" viewBox="0 0 20 20")
                 path(d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z")
-              svg(id="moonIcon" class="w-4 h-4 text-gray-300 hidden" fill="currentColor" viewBox="0 0 20 20")
+              svg(id="moonIcon" class="theme-icon text-gray-300 hidden" fill="currentColor" viewBox="0 0 20 20")
                 path(d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z")
 
-    style.
-      main {
-        margin-top: 5rem;
-      }
-    main(class="min-h-screen")
-      .container.mx-auto.px-4.py-8
-        // Home Page Content
+    // Main Content
+    main(class="min-h-screen pt-16")
+      div(class="container mx-auto px-4 py-6")
+        // Home Page
         #homePage
-          // Slider/Banner
-          section.slider.relative.overflow-hidden.rounded-lg
+          // Slider Section
+          section.slider
             #sliderContainer.slider-container
             button#sliderPrev.slider-nav.slider-prev ❮
             button#sliderNext.slider-nav.slider-next ❯
 
-          // Latest Updates
-          section.mt-8
-            .section-title
-              h2.text-xl.font-bold 📖 Terbaru
-              a.view-all(href="#", onclick="navigateToPage('latest'); return false;") Lihat Semua
-            #latestGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4.mt-4
+          // Latest Updates Section
+          section.section
+            .section-header
+              h2.section-title 📖 Terbaru
+              a.section-more(href="#", onclick="navigateToPage('latest'); return false;") Lihat Semua
+            #latestGrid.comic-grid
 
-          // Popular
-          section.mt-8
-            .section-title
-              h2.text-xl.font-bold 🔥 Populer
-              a.view-all(href="#", onclick="navigateToPage('popular'); return false;") Lihat Semua
-            #popularGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4.mt-4
+          // Popular Section
+          section.section
+            .section-header
+              h2.section-title 🔥 Populer
+              a.section-more(href="#", onclick="navigateToPage('popular'); return false;") Lihat Semua
+            #popularGrid.comic-grid
 
-          // Top Rated
-          section.mt-8
-            .section-title
-              h2.text-xl.font-bold 🏆 Top Rated
-              a.view-all(href="#", onclick="navigateToPage('top-weekly'); return false;") Lihat Semua
-            #topRatedGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4.mt-4
+          // Top Rated Section
+          section.section
+            .section-header
+              h2.section-title 🏆 Top Rated
+              a.section-more(href="#", onclick="navigateToPage('top-weekly'); return false;") Lihat Semua
+            #topRatedGrid.comic-grid
 
-        // Search Page Content
+        // Search Page
         #searchPage(style="display: none;")
-          h1.text-2xl.font-bold.mb-4 Hasil Pencarian
-          #searchInfo.search-info.mb-4
-          #searchGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4
+          .section-header
+            h1.section-title Hasil Pencarian
+          #searchInfo.mb-4.text-sm.text-gray-600.dark:text-gray-400
+          #searchGrid.comic-grid
 
-        // Detail Page Content
+        // Detail Page
         #detailPage(style="display: none;")
           .detail-container
 
-        // Chapter Reader Content
+        // Reader Page
         #readerPage(style="display: none;")
           .reader-container
-            .reader-header
-              #readerTitle.reader-title
-              .reader-nav
-                button#prevChapter.btn.btn-secondary.text-xs ❮ Previous
-                button#nextChapter.btn.btn-secondary.text-xs Next ❯
-            #readerContent.reader-content
+            .section-header
+              #readerTitle.section-title
+              .flex.space-x-2
+                button#prevChapter.btn.btn-secondary ❮ Prev
+                button#nextChapter.btn.btn-secondary Next ❯
+            #readerContent.mt-4
 
+    // Footer
     footer(class="bg-gray-900 dark:bg-gray-950 text-white mt-12")
       div(class="container mx-auto px-4 py-6 text-center")
-        p.text-sm &copy; 2023 COMICKU. All rights reserved.
+        p(class="text-sm") &copy; 2023 COMICKU. All rights reserved.
 
     script(src="/js/comic.js")
