@@ -668,4 +668,12 @@ router.post('/cookie-consent', (req, res) => {
   res.json({ success: true });
 });
 
+router.get('/comic', (req, res) => {
+  res.render('comic', {
+    title: 'Comic - ANIMAQU',
+    description: 'Baca komik dan manhwa subtitle Indonesia',
+    currentPage: 'comic'
+  });
+});
+
 module.exports = router;

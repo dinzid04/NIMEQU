@@ -1,0 +1,66 @@
+extends layout
+
+block content
+  link(rel="stylesheet", href="/css/comic.css")
+
+  // Main Content
+  main
+    .container
+      // Home Page Content
+      #homePage
+        // Slider/Banner
+        section.slider
+          #sliderContainer.slider-container
+            // Slider items will be populated by JavaScript
+          button#sliderPrev.slider-nav.slider-prev ❮
+          button#sliderNext.slider-nav.slider-next ❯
+
+        // Latest Updates
+        section
+          .section-title
+            h2 📖 Terbaru
+            a.view-all(href="/latest") Lihat Semua
+          #latestGrid.grid
+            // Latest items will be populated by JavaScript
+
+        // Popular
+        section
+          .section-title
+            h2 🔥 Populer
+            a.view-all(href="/popular") Lihat Semua
+          #popularGrid.grid
+            // Popular items will be populated by JavaScript
+
+        // Top Rated
+        section
+          .section-title
+            h2 🏆 Top Rated
+            a.view-all(href="/top-weekly") Lihat Semua
+          #topRatedGrid.grid
+            // Top rated items will be populated by JavaScript
+
+      // Search Page Content
+      #searchPage(style="display: none;")
+        h1 Hasil Pencarian
+        #searchInfo.search-info
+        #searchGrid.grid
+          // Search results will be populated by JavaScript
+
+      // Detail Page Content
+      #detailPage(style="display: none;")
+        .detail-container
+          // Detail content will be populated by JavaScript
+
+      // Chapter Reader Content
+      #readerPage(style="display: none;")
+        .reader-container
+          .reader-header
+            #readerTitle.reader-title
+            .reader-nav
+              button#prevChapter.btn.btn-secondary ❮ Previous Chapter
+              button#nextChapter.btn.btn-secondary Next Chapter ❯
+          #readerContent.reader-content
+            // Chapter images will be populated by JavaScript
+
+block scripts
+  script(src="/js/comic.js")

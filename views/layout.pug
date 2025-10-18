@@ -205,7 +205,8 @@ html(lang="id" class="scroll-smooth")
             a(href="/complete" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'complete' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Complete
             a(href="/genres" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'genres' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Genre
             a(href="/movies" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'movies' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Movie
-          
+            a(href="/comic" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'comic' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Comic
+
           div(class="flex-1 max-w-md mx-6 relative")
             form(action="/search" method="GET" class="relative")
               input(
@@ -351,5 +352,29 @@ html(lang="id" class="scroll-smooth")
       script(async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxx" crossorigin="anonymous")
       script.
         (adsbygoogle = window.adsbygoogle || []).push({});
+
+    // Bottom Navigation for Mobile
+    div(class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50")
+      div(class="flex justify-around items-center h-16")
+        a(href="/" class="flex flex-col items-center justify-center text-xs w-full " + (currentPage === 'home' ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400'))
+          svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6")
+          span Beranda
+        a(href="/ongoing" class="flex flex-col items-center justify-center text-xs w-full " + (currentPage === 'ongoing' ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400'))
+          svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h5V4H4zm0 12h5v-5H4v5zm12 0h5v-5h-5v5zM16 4v5h5V4h-5z")
+          span Ongoing
+        a(href="/complete" class="flex flex-col items-center justify-center text-xs w-full " + (currentPage === 'complete' ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400'))
+          svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z")
+          span Complete
+        a(href="/genres" class="flex flex-col items-center justify-center text-xs w-full " + (currentPage === 'genres' ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400'))
+          svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10")
+          span Genre
+        a(href="/comic" class="flex flex-col items-center justify-center text-xs w-full " + (currentPage === 'comic' ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400'))
+          svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z")
+          span Comic
 
   block scripts
