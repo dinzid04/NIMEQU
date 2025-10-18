@@ -1,0 +1,59 @@
+extends layout
+
+block content
+  div(class="relative overflow-hidden")
+    //- Background image
+    div(class="absolute inset-0 z-0")
+      img(src=comic.imageSrc alt=`Background for ${comic.title}` class="w-full h-full object-cover blur-lg scale-110" onerror="this.style.display='none'")
+      div(class="absolute inset-0 bg-gray-900/80")
+
+    //- Content
+    div(class="container mx-auto px-4 py-8 md:py-16 relative z-10")
+      div(class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 text-white")
+
+        //- Left Column (Poster and Info)
+        div(class="md:col-span-1 lg:col-span-1")
+          img(src=comic.imageSrc alt=comic.title class="w-full rounded-2xl shadow-2xl mb-6" onerror="this.style.display='none'")
+          div(class="space-y-4")
+            a(href=(comic.chapters && comic.chapters.length > 0 ? `/comic/chapter/${comic.chapters[0].slug}` : '#') class="block w-full text-center bg-primary-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-primary-700 transition-colors") Read First Chapter
+
+        //- Right Column (Details and Chapters)
+        div(class="md:col-span-2 lg:col-span-3")
+          //- Title and Genres
+          div(class="mb-8")
+            h1(class="text-4xl md:text-5xl font-bold mb-3")= comic.title
+            if comic.genres && comic.genres.length > 0
+              div(class="flex flex-wrap gap-2")
+                each genre in comic.genres
+                  a(href=`/comic/genres/${genre.slug}` class="px-3 py-1 bg-white/10 text-white text-sm rounded-full hover:bg-white/20 transition-colors")= genre.name
+
+          //- Metadata
+          div(class="flex flex-wrap items-center gap-x-6 gap-y-3 mb-8 text-lg")
+            if comic.rating
+              div(class="flex items-center")
+                svg(class="w-5 h-5 text-yellow-400 mr-2" fill="currentColor" viewBox="0 0 20 20")
+                  path(d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z")
+                span= comic.rating
+            if comic.status
+              span= comic.status
+            if comic.type
+              span= comic.type
+            if comic.released
+              span= comic.released
+
+          //- Synopsis
+          if comic.synopsis
+            div(class="mb-8")
+              h2(class="text-2xl font-bold mb-3") Synopsis
+              p(class="text-gray-300 leading-relaxed")= comic.synopsis
+
+          //- Chapter List
+          if comic.chapters && comic.chapters.length > 0
+            div
+              h2(class="text-2xl font-bold mb-4") Chapters
+              div(class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3")
+                each chapter in comic.chapters
+                  a(href=`/comic/chapter/${chapter.slug}` class="block bg-white/10 hover:bg-white/20 p-4 rounded-lg text-center transition-colors")
+                    span(class="font-medium")= chapter.title
+          else
+            p No chapters available yet.

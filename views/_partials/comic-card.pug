@@ -1,0 +1,10 @@
+a(href=`/comic/manga/${comic.slug}` class="group")
+  .relative.overflow-hidden.rounded-2xl.shadow-lg(class="hover:shadow-xl transition-shadow duration-300")
+    img(src=comic.imageSrc alt=comic.title class="w-full h-72 object-cover" onerror="this.closest('a').style.display='none'")
+    .absolute.inset-0.bg-gradient-to-t.from-black/70.to-transparent
+    .absolute.top-3.right-3
+        span.bg-primary-500.text-white.text-xs.font-bold.px-3.py-1.rounded-full.shadow-lg ⭐ #{comic.rating}
+    .absolute.bottom-0.left-0.right-0.p-4
+      h3.font-bold.text-lg.text-white.line-clamp-2= comic.title
+      .flex.items-center.justify-between.text-xs.text-gray-300.mt-1
+        span= comic.latestChapter

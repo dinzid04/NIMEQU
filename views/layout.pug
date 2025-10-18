@@ -102,6 +102,7 @@ html(lang="id" class="scroll-smooth")
     
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css")
     link(rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css")
+    link(rel="stylesheet" href="/css/dark-mode-enhanced.css")
     script(src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js")
     script(src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js")
     script(src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js')
@@ -205,6 +206,7 @@ html(lang="id" class="scroll-smooth")
             a(href="/complete" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'complete' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Complete
             a(href="/genres" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'genres' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Genre
             a(href="/movies" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'movies' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Movie
+            a(href="/comic" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'comic' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Comic
           
           div(class="flex-1 max-w-md mx-6 relative")
             form(action="/search" method="GET" class="relative")
@@ -241,6 +243,7 @@ html(lang="id" class="scroll-smooth")
             a(href="/complete" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'complete' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Complete
             a(href="/genres" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'genres' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Genre
             a(href="/movies" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'movies' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Movies
+            a(href="/comic" class=`text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors ${currentPage === 'comic' ? 'text-primary-600 dark:text-primary-400 font-medium' : ''}`) Comic
 
     main(class="min-h-screen")
       block content

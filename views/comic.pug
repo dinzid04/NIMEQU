@@ -1,0 +1,80 @@
+extends layout
+
+block content
+  //- Hero Slider
+  if trending && trending.length > 0
+    section.hero-section.relative.mb-8.container.mx-auto.mt-6
+      .swiper.hero-slider.rounded-2xl
+        .swiper-wrapper
+          each comic in trending
+            a(href=`/comic/manga/${comic.slug}` class="swiper-slide")
+              .relative.h-[40vh].md:h-[60vh].bg-cover.bg-center.rounded-2xl(style=`background-image: url(${comic.imageSrc})`)
+                .absolute.inset-0.bg-gradient-to-t.from-gray-900.via-gray-900/60.to-transparent
+                .container.mx-auto.px-4.h-full.flex.items-end.pb-16
+                  .text-white.max-w-lg
+                    h2.text-3xl.md:text-5xl.font-bold.mb-4= comic.title
+                    .flex.items-center.space-x-4.text-sm
+                      span= comic.latestChapter
+                      span.text-yellow-400 ⭐ #{comic.rating}
+        .swiper-pagination.hero-pagination
+        .swiper-button-prev.hero-nav.left-4.hidden.md:flex
+        .swiper-button-next.hero-nav.right-4.hidden.md:flex
+
+  //- Main Content
+  div(class="container mx-auto px-4 py-6")
+    //- Latest Updates
+    section.mb-12
+      .section-title.flex.justify-between.items-center.mb-6
+        h2.text-2xl.font-bold.text-gray-900.dark:text-gray-100 📖 Terbaru
+        a(href="/comic/latest" class="view-all text-primary-600 dark:text-primary-400 font-medium") Lihat Semua
+      if latest && latest.length > 0
+        .grid(class="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6")
+          each comic in latest
+            include _partials/comic-card.pug
+      else
+        p Tidak ada komik terbaru.
+
+    //- Popular
+    section.mb-12
+      .section-title.flex.justify-between.items-center.mb-6
+        h2.text-2xl.font-bold.text-gray-900.dark:text-gray-100 🔥 Populer
+        a(href="/comic/popular" class="view-all text-primary-600 dark:text-primary-400 font-medium") Lihat Semua
+      if popular && popular.length > 0
+        .grid(class="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6")
+          each comic in popular
+            include _partials/comic-card.pug
+      else
+        p Tidak ada komik populer.
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', function () {
+      if (document.querySelector('.hero-slider')) {
+        const heroSlider = new Swiper('.hero-slider', {
+          loop: true,
+          effect: 'coverflow',
+          grabCursor: true,
+          centeredSlides: true,
+          slidesPerView: 'auto',
+          coverflowEffect: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          },
+          autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+          },
+          pagination: {
+            el: '.hero-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      }
+    });
