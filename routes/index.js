@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
     // Shuffle ongoing anime and pick 3 for the hero slider
     const ongoingAnime = homeData?.ongoing_anime || [];
     const shuffledOngoing = ongoingAnime.sort(() => 0.5 - Math.random());
-    const featuredAnime = shuffledOngoing.slice(0, 3);
+    const featuredAnime = shuffledOngoing.slice(0, 6);
     
     res.render('index', {
       title: siteTitle,
@@ -324,7 +324,7 @@ router.get('/search', async (req, res) => {
       title: keyword ? `Pencarian: ${keyword} - ANIMAQU` : 'Pencarian Anime - ANIMAQU',
       description: keyword ? `Hasil pencarian untuk "${keyword}"` : 'Cari anime favorit Anda',
       keyword,
-      searchResults: searchResults.data || [],
+      searchResults: searchResults ? searchResults.data : [],
       pagination: searchResults?.pagination || { current_page: page, total_pages: 1 },
       currentPage: 'search',
       genres
