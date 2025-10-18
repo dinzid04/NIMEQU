@@ -167,67 +167,27 @@ function navigateToPage(page) {
             searchPage.style.display = 'block';
             currentPage = 'popular';
             document.querySelector('#searchPage h1').textContent = 'Manhwa Populer';
+            loadPopularPage();
             break;
         case 'latest':
             searchPage.style.display = 'block';
             currentPage = 'latest';
             document.querySelector('#searchPage h1').textContent = 'Manhwa Terbaru';
+            loadLatestPage();
             break;
         case 'recommendations':
             searchPage.style.display = 'block';
             currentPage = 'recommendations';
             document.querySelector('#searchPage h1').textContent = 'Rekomendasi Manhwa';
+            loadRecommendationsPage();
             break;
         case 'top-weekly':
             searchPage.style.display = 'block';
             currentPage = 'top-weekly';
             document.querySelector('#searchPage h1').textContent = 'Top Mingguan';
+            loadTopWeeklyPage();
             break;
     }
-
-    // Update URL without reloading the page
-    updateURL(page);
-}
-
-// Update URL based on current page
-function updateURL(page) {
-    let url = 'index.html';
-    let params = new URLSearchParams();
-
-    switch(page) {
-        case 'search':
-            if (searchQuery) {
-                params.set('search', searchQuery);
-                url = `index.html?${params.toString()}`;
-            }
-            break;
-        case 'detail':
-            if (currentManhwaSlug) {
-                params.set('detail', currentManhwaSlug);
-                url = `index.html?${params.toString()}`;
-            }
-            break;
-        case 'reader':
-            if (currentChapterSlug) {
-                params.set('chapter', currentChapterSlug);
-                url = `index.html?${params.toString()}`;
-            }
-            break;
-        case 'popular':
-            url = 'popular.html';
-            break;
-        case 'latest':
-            url = 'latest.html';
-            break;
-        case 'recommendations':
-            url = 'recommendations.html';
-            break;
-        case 'top-weekly':
-            url = 'top-weekly.html';
-            break;
-    }
-
-    window.history.replaceState({}, '', url);
 }
 
 // Toggle dark mode

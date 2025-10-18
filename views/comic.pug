@@ -1,66 +1,105 @@
-extends layout
+doctype html
+html(lang="id")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title COMICKU - Baca Manhwa Gratis
+    link(rel="stylesheet", href="/css/comic.css")
 
-block content
-  link(rel="stylesheet", href="/css/comic.css")
+  body
+    // Header
+    header
+      .container
+        .header-content
+          .logo
+            a(href="#") COMICKU
+          .search-container
+            input.search-input(type="text", placeholder="Cari manhwa...")
+          .header-actions
+            button#themeToggle.theme-toggle 🌙
+            button#menuToggle.menu-toggle ☰
 
-  // Main Content
-  main
-    .container
-      // Home Page Content
-      #homePage
-        // Slider/Banner
-        section.slider
-          #sliderContainer.slider-container
-            // Slider items will be populated by JavaScript
-          button#sliderPrev.slider-nav.slider-prev ❮
-          button#sliderNext.slider-nav.slider-next ❯
+    // Navigation
+    nav
+      .container
+        ul#navLinks.nav-links
+          li: a(href="#", onclick="navigateToPage('home'); return false;") Beranda
+          li: a(href="#", onclick="navigateToPage('popular'); return false;") Populer
+          li: a(href="#", onclick="navigateToPage('latest'); return false;") Terbaru
+          li: a(href="#", onclick="navigateToPage('recommendations'); return false;") Rekomendasi
+          li: a(href="#", onclick="navigateToPage('top-weekly'); return false;") Top Mingguan
 
-        // Latest Updates
-        section
-          .section-title
-            h2 📖 Terbaru
-            a.view-all(href="/latest") Lihat Semua
-          #latestGrid.grid
-            // Latest items will be populated by JavaScript
+    // Main Content
+    main
+      .container
+        // Home Page Content
+        #homePage
+          // Slider/Banner
+          section.slider
+            #sliderContainer.slider-container
+              // Slider items will be populated by JavaScript
+            button#sliderPrev.slider-nav.slider-prev ❮
+            button#sliderNext.slider-nav.slider-next ❯
 
-        // Popular
-        section
-          .section-title
-            h2 🔥 Populer
-            a.view-all(href="/popular") Lihat Semua
-          #popularGrid.grid
-            // Popular items will be populated by JavaScript
+          // Latest Updates
+          section
+            .section-title
+              h2 📖 Terbaru
+              a.view-all(href="#", onclick="navigateToPage('latest'); return false;") Lihat Semua
+            #latestGrid.grid
+              // Latest items will be populated by JavaScript
 
-        // Top Rated
-        section
-          .section-title
-            h2 🏆 Top Rated
-            a.view-all(href="/top-weekly") Lihat Semua
-          #topRatedGrid.grid
-            // Top rated items will be populated by JavaScript
+          // Popular
+          section
+            .section-title
+              h2 🔥 Populer
+              a.view-all(href="#", onclick="navigateToPage('popular'); return false;") Lihat Semua
+            #popularGrid.grid
+              // Popular items will be populated by JavaScript
 
-      // Search Page Content
-      #searchPage(style="display: none;")
-        h1 Hasil Pencarian
-        #searchInfo.search-info
-        #searchGrid.grid
-          // Search results will be populated by JavaScript
+          // Top Rated
+          section
+            .section-title
+              h2 🏆 Top Rated
+              a.view-all(href="#", onclick="navigateToPage('top-weekly'); return false;") Lihat Semua
+            #topRatedGrid.grid
+              // Top rated items will be populated by JavaScript
 
-      // Detail Page Content
-      #detailPage(style="display: none;")
-        .detail-container
-          // Detail content will be populated by JavaScript
+        // Search Page Content
+        #searchPage(style="display: none;")
+          h1 Hasil Pencarian
+          #searchInfo.search-info
+          #searchGrid.grid
+            // Search results will be populated by JavaScript
 
-      // Chapter Reader Content
-      #readerPage(style="display: none;")
-        .reader-container
-          .reader-header
-            #readerTitle.reader-title
-            .reader-nav
-              button#prevChapter.btn.btn-secondary ❮ Previous Chapter
-              button#nextChapter.btn.btn-secondary Next Chapter ❯
-          #readerContent.reader-content
-            // Chapter images will be populated by JavaScript
+        // Detail Page Content
+        #detailPage(style="display:none;")
+            .detail-container
+                // Detail content will be populated by JavaScript
 
-block scripts
-  script(src="/js/comic.js")
+        // Chapter Reader Content
+        #readerPage(style="display: none;")
+            .reader-container
+                .reader-header
+                    #readerTitle.reader-title
+                    .reader-nav
+                        button#prevChapter.btn.btn-secondary ❮ Previous Chapter
+                        button#nextChapter.btn.btn-secondary Next Chapter ❯
+                #readerContent.reader-content
+                    // Chapter images will be populated by JavaScript
+
+    // Footer
+    footer
+      .container
+        .footer-content
+          .logo COMICKU
+          .footer-links
+            a(href="#", onclick="navigateToPage('home'); return false;") Beranda
+            a(href="#", onclick="navigateToPage('popular'); return false;") Populer
+            a(href="#", onclick="navigateToPage('latest'); return false;") Terbaru
+            a(href="#", onclick="navigateToPage('recommendations'); return false;") Rekomendasi
+            a(href="#", onclick="navigateToPage('top-weekly'); return false;") Top Mingguan
+          p Created by DinzID
+          p &copy; 2023 COMICKU. All rights reserved.
+
+    script(src="/js/comic.js")
