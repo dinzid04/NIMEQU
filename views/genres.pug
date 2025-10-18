@@ -7,19 +7,14 @@ block content
       p(class="text-lg opacity-90") Explore anime by your favorite genres.
 
     div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
-      div(class="lg:col-span-3")
+      div(class="lg:col-span-4")
         if genres && genres.length > 0
-          div(class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8")
+          div(class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8")
             each genre in genres
-              a(href=`/genres/${genre.slug}` class="group flex flex-col items-center justify-center bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl dark:shadow-gray-900/50 p-4 transition-all duration-300 hover:-translate-y-1 text-center border border-gray-100 dark:border-gray-700 aspect-square")
-                div(class="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 rounded-full flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110")
-                  svg(class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24")
-                    path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z")
-                h3(class="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200")= genre.name
-                p(class="text-xs text-gray-500 dark:text-gray-400")= `${genre.count || 0} anime`
+              a(href=`/genres/${genre.slug}` class="group relative flex items-center justify-center bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl dark:shadow-gray-900/50 p-4 transition-all duration-300 hover:scale-105 text-center border border-gray-100 dark:border-gray-700 aspect-video overflow-hidden")
+                div(class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10")
+                img(src=`https://source.unsplash.com/random/400x225?anime,${genre.name}` alt=genre.name class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110")
+                h3(class="relative z-20 font-bold text-white text-lg drop-shadow-lg")= genre.name
         else
           div(class="text-center py-16 bg-white dark:bg-gray-800 rounded-2xl shadow-lg")
             p(class="text-xl font-medium text-gray-900 dark:text-gray-100") No genres found.
-
-      div(class="lg:col-span-1")
-        include ./_partials/sidebar.pug

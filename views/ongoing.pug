@@ -2,9 +2,11 @@ extends layout
 
 block content
   div(class="container mx-auto px-4 py-6")
-    div(class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-700 dark:to-primary-900 rounded-2xl p-8 md:p-12 mb-8 text-white shadow-lg")
-      h1(class="text-3xl md:text-4xl font-bold mb-2") Ongoing Anime
-      p(class="text-lg opacity-90") Daftar anime yang sedang tayang dengan subtitle Indonesia.
+    div(class="relative bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-700 dark:to-primary-900 rounded-2xl p-8 md:p-12 mb-8 text-white shadow-lg overflow-hidden")
+      div(class="absolute inset-0 bg-black/20")
+      div(class="relative z-10")
+        h1(class="text-3xl md:text-4xl font-bold mb-2") Ongoing Anime
+        p(class="text-lg opacity-90") Freshly released episodes, just for you.
 
     div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
       div(class="lg:col-span-3")

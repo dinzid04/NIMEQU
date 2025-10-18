@@ -2,20 +2,24 @@ extends layout
 
 block content
   if featuredAnime && featuredAnime.length > 0
-    section(class="hero-section relative mb-8")
-      div(class="swiper hero-slider")
+    section(class="hero-section relative mb-8 container mx-auto mt-6")
+      div(class="swiper hero-slider rounded-2xl")
         div(class="swiper-wrapper")
           each anime in featuredAnime
-            div(class="swiper-slide relative bg-cover bg-center", class="h-[50vh] md:h-[70vh]", style=`background-image: url(${anime.poster})`)
-              div(class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent")
-              div(class="container mx-auto px-4 h-full flex items-end pb-16")
-                div(class="text-white max-w-2xl")
-                  h2(class="text-3xl md:text-5xl font-bold mb-4")= anime.title
-                  p(class="text-base text-gray-300 line-clamp-3 mb-6")= anime.synopsis || 'No synopsis available.'
-                  a(href=`/anime/${anime.slug}` class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-6 rounded-lg transition-colors") Watch Now
-        div(class="swiper-pagination hero-pagination")
-      div(class="swiper-button-prev hero-nav left-4")
-      div(class="swiper-button-next hero-nav right-4")
+            div(class='swiper-slide relative bg-cover bg-center h-[50vh] md:h-[60vh] rounded-2xl' style=`background-image: url(${anime.poster})`)
+              div(class="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-900/20 to-transparent")
+              div(class="container mx-auto px-4 h-full flex items-center")
+                div(class="text-white max-w-lg")
+                  h2(class="text-3xl md:text-5xl font-bold mb-4 leading-tight")= anime.title
+                  p(class="text-base text-gray-200 line-clamp-3 mb-6")= anime.synopsis || 'No synopsis available.'
+                  a(href=`/anime/${anime.slug}` class="inline-flex items-center bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-6 rounded-lg transition-colors")
+                    span Watch Now
+                    svg(class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+                      path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3")
+
+        div(class="swiper-pagination hero-pagination text-left px-4 pb-4")
+      div(class="swiper-button-prev hero-nav left-4 hidden md:flex")
+      div(class="swiper-button-next hero-nav right-4 hidden md:flex")
 
   div(class="container mx-auto px-4 py-6")
     div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
@@ -47,9 +51,13 @@ block scripts
       if (document.querySelector('.hero-slider')) {
         const heroSlider = new Swiper('.hero-slider', {
           loop: true,
-          effect: 'fade',
-          fadeEffect: {
-            crossFade: true
+          effect: 'coverflow',
+          coverflowEffect: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
           },
           autoplay: {
             delay: 5000,
@@ -58,6 +66,9 @@ block scripts
           pagination: {
             el: '.hero-pagination',
             clickable: true,
+            renderBullet: function (index, className) {
+              return '<span class="' + className + '"></span>';
+            },
           },
           navigation: {
             nextEl: '.swiper-button-next',
