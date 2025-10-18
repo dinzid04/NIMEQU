@@ -1,66 +1,94 @@
-extends layout
+doctype html
+html(lang="id" class="scroll-smooth")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title= "COMICKU - Baca Manhwa Gratis"
+    link(rel="icon" href="/images/favicon.ico")
+    link(rel="stylesheet" href="https://cdn.tailwindcss.com/3.4.17")
+    link(rel="stylesheet", href="/css/comic.css")
+    script.
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: { 50: '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe', 300: '#c4b5fd', 400: '#a78bfa', 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9', 800: '#5b21b6', 900: '#4c1d95' }
+            },
+            fontFamily: { 'sans': ['Inter', 'system-ui', 'sans-serif'] }
+          }
+        }
+      }
 
-block content
-  link(rel="stylesheet", href="/css/comic.css")
+  body(class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans")
+    header(class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 rounded-b-lg")
+      nav(class="container mx-auto px-8 py-4")
+        div(class="flex items-center justify-between")
+          a(href="/" class="flex items-center")
+            img(src="/images/logo.png" alt="ANIMAQU" class="h-8 w-auto rounded-sm")
+            span(class="ml-3 text-xl font-bold text-gray-800 dark:text-white") ANIMAQU
 
-  // Main Content
-  main
-    .container
-      // Home Page Content
-      #homePage
-        // Slider/Banner
-        section.slider
-          #sliderContainer.slider-container
-            // Slider items will be populated by JavaScript
-          button#sliderPrev.slider-nav.slider-prev ❮
-          button#sliderNext.slider-nav.slider-next ❯
+          div(class="flex items-center space-x-4")
+            a(href="/" class="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg") Kembali ke Anime
+            button(id="darkModeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600")
+              svg(id="sunIcon" class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20")
+                path(d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z")
+              svg(id="moonIcon" class="w-5 h-5 text-gray-300 hidden" fill="currentColor" viewBox="0 0 20 20")
+                path(d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z")
 
-        // Latest Updates
-        section
-          .section-title
-            h2 📖 Terbaru
-            a.view-all(href="#", onclick="navigateToPage('latest'); return false;") Lihat Semua
-          #latestGrid.grid
-            // Latest items will be populated by JavaScript
+    main(class="min-h-screen mt-16")
+      .container.mx-auto.px-4.py-8
+        // Home Page Content
+        #homePage
+          // Slider/Banner
+          section.slider
+            #sliderContainer.slider-container
+            button#sliderPrev.slider-nav.slider-prev ❮
+            button#sliderNext.slider-nav.slider-next ❯
 
-        // Popular
-        section
-          .section-title
-            h2 🔥 Populer
-            a.view-all(href="#", onclick="navigateToPage('popular'); return false;") Lihat Semua
-          #popularGrid.grid
-            // Popular items will be populated by JavaScript
+          // Latest Updates
+          section.mt-8
+            .section-title
+              h2.text-2xl.font-bold 📖 Terbaru
+              a.view-all(href="#", onclick="navigateToPage('latest'); return false;") Lihat Semua
+            #latestGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4.mt-4
 
-        // Top Rated
-        section
-          .section-title
-            h2 🏆 Top Rated
-            a.view-all(href="#", onclick="navigateToPage('top-weekly'); return false;") Lihat Semua
-          #topRatedGrid.grid
-            // Top rated items will be populated by JavaScript
+          // Popular
+          section.mt-8
+            .section-title
+              h2.text-2xl.font-bold 🔥 Populer
+              a.view-all(href="#", onclick="navigateToPage('popular'); return false;") Lihat Semua
+            #popularGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4.mt-4
 
-      // Search Page Content
-      #searchPage(style="display: none;")
-        h1 Hasil Pencarian
-        #searchInfo.search-info
-        #searchGrid.grid
-          // Search results will be populated by JavaScript
+          // Top Rated
+          section.mt-8
+            .section-title
+              h2.text-2xl.font-bold 🏆 Top Rated
+              a.view-all(href="#", onclick="navigateToPage('top-weekly'); return false;") Lihat Semua
+            #topRatedGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4.mt-4
 
-      // Detail Page Content
-      #detailPage(style="display:none;")
+        // Search Page Content
+        #searchPage(style="display: none;")
+          h1.text-3xl.font-bold.mb-4 Hasil Pencarian
+          #searchInfo.search-info.mb-4
+          #searchGrid.grid.grid-cols-2.md-grid-cols-4.lg-grid-cols-6.gap-4
+
+        // Detail Page Content
+        #detailPage(style="display: none;")
           .detail-container
-              // Detail content will be populated by JavaScript
 
-      // Chapter Reader Content
-      #readerPage(style="display: none;")
+        // Chapter Reader Content
+        #readerPage(style="display: none;")
           .reader-container
-              .reader-header
-                  #readerTitle.reader-title
-                  .reader-nav
-                      button#prevChapter.btn.btn-secondary ❮ Previous Chapter
-                      button#nextChapter.btn.btn-secondary Next Chapter ❯
-              #readerContent.reader-content
-                  // Chapter images will be populated by JavaScript
+            .reader-header
+              #readerTitle.reader-title
+              .reader-nav
+                button#prevChapter.btn.btn-secondary ❮ Previous Chapter
+                button#nextChapter.btn.btn-secondary Next Chapter ❯
+            #readerContent.reader-content
 
-block scripts
-  script(src="/js/comic.js")
+    footer(class="bg-gray-900 dark:bg-gray-950 text-white mt-12")
+      div(class="container mx-auto px-4 py-8 text-center")
+        p &copy; 2023 COMICKU. All rights reserved.
+
+    script(src="/js/comic.js")
