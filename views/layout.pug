@@ -263,7 +263,7 @@ html(lang="id" class="scroll-smooth")
                   path(d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z")
 
     if showCookieConsent
-      div(id="cookieConsent" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50")
+      div(id="cookieConsent" class="fixed top-4 left-1/2 -translate-x-1/2 w-full max-w-lg bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50 dark:bg-gray-800 dark:border-gray-700")
         div(class="flex items-start space-x-3")
           div(class="flex-shrink-0")
             svg(class="w-5 h-5 text-primary-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24")
@@ -378,3 +378,228 @@ html(lang="id" class="scroll-smooth")
           span Comic
 
   block scripts
+
+  if currentPage === 'comic'
+    script.
+      const comicApiUrl = 'https://www.sankavollerei.com/comic';
+
+      function navigateToComicPage(page) {
+        const homePage = document.getElementById('homePage');
+        const searchPage = document.getElementById('searchPage');
+        const detailPage = document.getElementById('detailPage');
+        const readerPage = document.getElementById('readerPage');
+
+        if (homePage) homePage.style.display = 'none';
+        if (searchPage) searchPage.style.display = 'none';
+        if (detailPage) detailPage.style.display = 'none';
+        if (readerPage) readerPage.style.display = 'none';
+
+        switch (page) {
+          case 'home':
+            if (homePage) homePage.style.display = 'block';
+            break;
+          case 'latest':
+            if (searchPage) {
+              searchPage.style.display = 'block';
+              document.querySelector('#searchPage h1').textContent = 'Manhwa Terbaru';
+              loadLatestPage();
+            }
+            break;
+          case 'popular':
+            if (searchPage) {
+              searchPage.style.display = 'block';
+              document.querySelector('#searchPage h1').textContent = 'Manhwa Populer';
+              loadPopularPage();
+            }
+            break;
+          case 'top-weekly':
+             if (searchPage) {
+              searchPage.style.display = 'block';
+              document.querySelector('#searchPage h1').textContent = 'Top Mingguan';
+              loadTopWeeklyPage();
+            }
+            break;
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        if (document.getElementById('homePage')) {
+          initComicPage();
+        }
+      });
+
+      function initComicPage() {
+        const homePage = document.getElementById('homePage');
+        if (!homePage) return;
+
+        loadHomePage();
+
+        document.querySelectorAll('.view-all').forEach(el => {
+          el.addEventListener('click', (e) => {
+            e.preventDefault();
+            const page = e.target.getAttribute('href').substring(1);
+            navigateToComicPage(page);
+          });
+        });
+      }
+
+      async function loadHomePage() {
+        showSkeletons();
+        try {
+          const response = await fetch(`${comicApiUrl}/kiryuu/home`);
+          const data = await response.json();
+          if (data.success) {
+            populateSlider(data.trending.slice(0, 5));
+            const latestResponse = await fetch(`${comicApiUrl}/kiryuu/latest`);
+            const latestData = await latestResponse.json();
+            if (latestData.success) {
+              populateLatestGrid(latestData.results.slice(0, 12));
+            }
+            populateGrid(document.getElementById('popularGrid'), data.popularManhwa.slice(0, 8));
+            populateGrid(document.getElementById('topRatedGrid'), data.trending.slice(0, 8));
+          } else {
+            showError('Gagal memuat data komik.');
+          }
+        } catch (error) {
+          showError('Gagal memuat data komik. Silakan coba lagi.');
+        }
+      }
+
+      function showSkeletons() {
+        const sliderContainer = document.getElementById('sliderContainer');
+        if (sliderContainer) {
+          sliderContainer.innerHTML = '';
+          for (let i = 0; i < 3; i++) {
+            sliderContainer.innerHTML += '<div class="slide skeleton skeleton-slide"></div>';
+          }
+        }
+        const grids = [document.getElementById('latestGrid'), document.getElementById('popularGrid'), document.getElementById('topRatedGrid')];
+        grids.forEach(grid => {
+          if (grid) {
+            grid.innerHTML = '';
+            for (let i = 0; i < 8; i++) {
+              grid.innerHTML += '<div class="card skeleton skeleton-card"></div>';
+            }
+          }
+        });
+      }
+
+      function populateSlider(items) {
+        const sliderContainer = document.getElementById('sliderContainer');
+        if (!sliderContainer) return;
+        sliderContainer.innerHTML = '';
+        items.forEach(item => {
+          const slide = document.createElement('div');
+          slide.className = 'slide';
+          slide.innerHTML = `
+            <img src="${item.imageSrc}" alt="${item.title}">
+            <div class="slide-content">
+                <div class="slide-title">${item.title}</div>
+                <div class="slide-info">
+                    <span>⭐ ${item.rating}</span>
+                    <span>${item.latestChapter}</span>
+                </div>
+            </div>`;
+          sliderContainer.appendChild(slide);
+        });
+      }
+
+      function populateLatestGrid(items) {
+        const latestGrid = document.getElementById('latestGrid');
+        if (!latestGrid) return;
+        latestGrid.innerHTML = '';
+        items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="card-image">
+                <img src="${item.imageSrc}" alt="${item.title}" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';">
+                <div class="card-rating">⭐ ${item.rating || '-'}</div>
+            </div>
+            <div class="card-content">
+                <div class="card-title">${item.title}</div>
+                <div class="card-info"><span>${item.chapter || ''}</span></div>
+            </div>`;
+          latestGrid.appendChild(card);
+        });
+      }
+
+      function populateGrid(grid, items) {
+        if (!grid) return;
+        grid.innerHTML = '';
+        items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="card-image">
+                <img src="${item.imageSrc || item.image}" alt="${item.title}" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';">
+                <div class="card-rating">⭐ ${item.rating || '-'}</div>
+            </div>
+            <div class="card-content">
+                <div class="card-title">${item.title}</div>
+                <div class="card-info"><span>${item.latestChapter || item.chapter || ''}</span></div>
+            </div>`;
+          grid.appendChild(card);
+        });
+      }
+
+      function showError(message) {
+        const container = document.querySelector('.container');
+        if (container) {
+          container.innerHTML = `
+            <div class="error-state">
+                <div class="error-icon">⚠️</div>
+                <div class="error-title">Terjadi Kesalahan</div>
+                <div class="error-message">${message}</div>
+                <button class="btn btn-primary" onclick="location.reload()">Coba Lagi</button>
+            </div>`;
+        }
+      }
+
+      async function loadLatestPage() {
+        const searchGrid = document.getElementById('searchGrid');
+        const searchInfo = document.getElementById('searchInfo');
+        if (!searchGrid || !searchInfo) return;
+        searchGrid.innerHTML = '';
+        searchInfo.textContent = 'Memuat manhwa terbaru...';
+        const response = await fetch(`${comicApiUrl}/kiryuu/latest`);
+        const data = await response.json();
+        if (data.success) {
+          searchInfo.textContent = `Menampilkan ${data.results.length} manhwa terbaru`;
+          populateGrid(searchGrid, data.results);
+        } else {
+          searchInfo.textContent = 'Gagal memuat manhwa terbaru';
+        }
+      }
+
+      async function loadPopularPage() {
+        const searchGrid = document.getElementById('searchGrid');
+        const searchInfo = document.getElementById('searchInfo');
+        if (!searchGrid || !searchInfo) return;
+        searchGrid.innerHTML = '';
+        searchInfo.textContent = 'Memuat manhwa populer...';
+        const response = await fetch(`${comicApiUrl}/kiryuu/popular`);
+        const data = await response.json();
+        if (data.success) {
+          searchInfo.textContent = `Menampilkan ${data.results.length} manhwa populer`;
+          populateGrid(searchGrid, data.results);
+        } else {
+          searchInfo.textContent = 'Gagal memuat manhwa populer';
+        }
+      }
+
+      async function loadTopWeeklyPage() {
+        const searchGrid = document.getElementById('searchGrid');
+        const searchInfo = document.getElementById('searchInfo');
+        if (!searchGrid || !searchInfo) return;
+        searchGrid.innerHTML = '';
+        searchInfo.textContent = 'Memuat top mingguan...';
+        const response = await fetch(`${comicApiUrl}/kiryuu/top-weekly`);
+        const data = await response.json();
+        if (data.success) {
+          searchInfo.textContent = `Menampilkan ${data.recommendations.length} top mingguan`;
+          populateGrid(searchGrid, data.recommendations);
+        } else {
+          searchInfo.textContent = 'Gagal memuat top mingguan';
+        }
+      }
