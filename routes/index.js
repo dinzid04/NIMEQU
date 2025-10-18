@@ -382,6 +382,14 @@ router.get('/genres/:slug', async (req, res) => {
   }
 });
 
+router.get('/comic', (req, res) => {
+  res.render('comic', {
+    title: 'Comic - ANIMAQU',
+    description: 'Baca komik dan manhwa subtitle Indonesia',
+    currentPage: 'comic'
+  });
+});
+
 router.get('/movies/', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;

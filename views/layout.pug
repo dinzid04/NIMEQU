@@ -81,6 +81,28 @@ html(lang="id" class="scroll-smooth")
       .group:hover .group-hover-glow {
         box-shadow: 0 0 15px rgba(167, 139, 250, 0.4);
       }
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background-color: #1f2937;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1000;
+      }
+      .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #d1d5db;
+        font-size: 12px;
+      }
+      .bottom-nav-item.active {
+        color: #c4b5fd;
+      }
 
   body(class="bg-gray-950 text-gray-200 font-sans transition-colors duration-300")
     //- Header
@@ -90,15 +112,15 @@ html(lang="id" class="scroll-smooth")
           //- Logo
           a(href="/" class="flex items-center gap-2")
             img(src="/images/logo.png" alt="KitaNime" class="h-8 w-auto rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/400?text=KN';")
-            span(class="text-xl font-bold text-white hidden sm:block") KitaNime
+            span(class="text-xl font-bold text-white hidden sm:block") ANIMAQU
 
           //- Desktop Navigation
           div(class="hidden md:flex items-center space-x-2")
-            a(href="/" class=`px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'home' ? 'nav-link-active' : ''}`) Home
+            a(href="/" class=`px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'home' ? 'nav-link-active' : ''}`) Beranda
             a(href="/ongoing" class=`px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'ongoing' ? 'nav-link-active' : ''}`) Ongoing
             a(href="/complete" class=`px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'complete' ? 'nav-link-active' : ''}`) Complete
             a(href="/genres" class=`px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'genres' ? 'nav-link-active' : ''}`) Genre
-            a(href="/movies" class=`px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'movies' ? 'nav-link-active' : ''}`) Movie
+            a(href="/comic" class=`px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'comic' ? 'nav-link-active' : ''}`) Comic
 
           //- Search and Theme Toggle
           div(class="flex items-center gap-4")
@@ -122,11 +144,11 @@ html(lang="id" class="scroll-smooth")
         //- Mobile Menu
         div(id="mobileMenu" class="md:hidden hidden pb-4")
           div(class="flex flex-col space-y-2 pt-2")
-            a(href="/" class=`block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'home' ? 'nav-link-active' : ''}`) Home
+            a(href="/" class=`block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'home' ? 'nav-link-active' : ''}`) Beranda
             a(href="/ongoing" class=`block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'ongoing' ? 'nav-link-active' : ''}`) Ongoing
             a(href="/complete" class=`block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'complete' ? 'nav-link-active' : ''}`) Complete
             a(href="/genres" class=`block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'genres' ? 'nav-link-active' : ''}`) Genre
-            a(href="/movies" class=`block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'movies' ? 'nav-link-active' : ''}`) Movie
+            a(href="/comic" class=`block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-all ${currentPage === 'comic' ? 'nav-link-active' : ''}`) Comic
 
     //- Ads
     if adSlots && adSlots.header && adSlots.header.length > 0
@@ -137,6 +159,19 @@ html(lang="id" class="scroll-smooth")
     //- Main Content
     main(class="min-h-screen")
       block content
+
+    //- Bottom Navigation for Mobile
+    div(class="bottom-nav md:hidden")
+      a(href="/" class=`bottom-nav-item ${currentPage === 'home' ? 'active' : ''}`)
+        span Beranda
+      a(href="/ongoing" class=`bottom-nav-item ${currentPage === 'ongoing' ? 'active' : ''}`)
+        span Ongoing
+      a(href="/complete" class=`bottom-nav-item ${currentPage === 'complete' ? 'active' : ''}`)
+        span Complete
+      a(href="/genres" class=`bottom-nav-item ${currentPage === 'genres' ? 'active' : ''}`)
+        span Genre
+      a(href="/comic" class=`bottom-nav-item ${currentPage === 'comic' ? 'active' : ''}`)
+        span Comic
 
     //- Footer
     footer(class="bg-gray-900 border-t border-gray-800 mt-16")
@@ -188,6 +223,8 @@ html(lang="id" class="scroll-smooth")
               button(id="declineCookies" class="px-3 py-1 bg-gray-700 text-gray-200 text-sm rounded-md hover:bg-gray-600 transition-colors") Tolak
 
     //- Scripts
+    if currentPage === 'comic'
+      link(rel="stylesheet", href="/css/comic.css")
     script(src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js")
     script(src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js')
     script.
