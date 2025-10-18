@@ -1,0 +1,106 @@
+extends layout
+
+block content
+  div(class="container mx-auto px-4 py-6")
+    // Header
+    header
+        div(class="container")
+            div(class="header-content")
+                div(class="logo")
+                    a(href="/") COMICKU
+                div(class="search-container")
+                    input(type="text" class="search-input" placeholder="Cari manhwa...")
+                div(class="header-actions")
+                    button(class="theme-toggle" id="themeToggle") 🌙
+                    button(class="menu-toggle" id="menuToggle") ☰
+
+    // Navigation
+    nav
+        div(class="container")
+            ul(class="nav-links" id="navLinks")
+                li
+                    a(href="/") Beranda
+                li
+                    a(href="/popular") Populer
+                li
+                    a(href="/latest") Terbaru
+                li
+                    a(href="/recommendations") Rekomendasi
+                li
+                    a(href="/top-weekly") Top Mingguan
+
+    // Main Content
+    main
+        div(class="container")
+            // Home Page Content
+            div(id="homePage")
+                // Slider/Banner
+                section(class="slider")
+                    div(class="slider-container" id="sliderContainer")
+                        // Slider items will be populated by JavaScript
+                    button(class="slider-nav slider-prev" id="sliderPrev") ❮
+                    button(class="slider-nav slider-next" id="sliderNext") ❯
+
+                // Latest Updates
+                section
+                    div(class="section-title")
+                        h2 📖 Terbaru
+                        a(href="/latest" class="view-all") Lihat Semua
+                    div(class="grid" id="latestGrid")
+                        // Latest items will be populated by JavaScript
+
+                // Popular
+                section
+                    div(class="section-title")
+                        h2 🔥 Populer
+                        a(href="/popular" class="view-all") Lihat Semua
+                    div(class="grid" id="popularGrid")
+                        // Popular items will be populated by JavaScript
+
+                // Top Rated
+                section
+                    div(class="section-title")
+                        h2 🏆 Top Rated
+                        a(href="/top-weekly" class="view-all") Lihat Semua
+                    div(class="grid" id="topRatedGrid")
+                        // Top rated items will be populated by JavaScript
+
+            // Search Page Content
+            div(id="searchPage" style="display: none;")
+                h1 Hasil Pencarian
+                div(class="search-info" id="searchInfo")
+                div(class="grid" id="searchGrid")
+                    // Search results will be populated by JavaScript
+
+            // Detail Page Content
+            div(id="detailPage" style="display: none;")
+                div(class="detail-container")
+                    // Detail content will be populated by JavaScript
+
+            // Chapter Reader Content
+            div(id="readerPage" style="display: none;")
+                div(class="reader-container")
+                    div(class="reader-header")
+                        div(class="reader-title" id="readerTitle")
+                        div(class="reader-nav")
+                            button(class="btn btn-secondary" id="prevChapter") ❮ Previous Chapter
+                            button(class="btn btn-secondary" id="nextChapter") Next Chapter ❯
+                    div(class="reader-content" id="readerContent")
+                        // Chapter images will be populated by JavaScript
+
+    // Footer
+    footer
+        div(class="container")
+            div(class="footer-content")
+                div(class="logo") COMICKU
+                div(class="footer-links")
+                    a(href="/") Beranda
+                    a(href="/popular") Populer
+                    a(href="/latest") Terbaru
+                    a(href="/recommendations") Rekomendasi
+                    a(href="/top-weekly") Top Mingguan
+                p Created by DinzID
+                p &copy; 2023 COMICKU. All rights reserved.
+
+block scripts
+  script(src="/js/comic.js")

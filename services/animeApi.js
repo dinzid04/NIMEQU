@@ -143,7 +143,49 @@ class AnimeApiService {
   }
 
   async getGenres() {
-    return await this.makeRequest('/genres');
+    try {
+      const genres = await this.makeRequest('/genres');
+      if (genres && genres.length > 0) {
+        return genres;
+      }
+    } catch (error) {
+      console.error('Error fetching genres from API, falling back to mock data.', error);
+    }
+
+    // Fallback to mock data if API fails
+    try {
+      const mockGenres = await this.loadMockData('/genres');
+      if (mockGenres && mockGenres.length > 0) {
+        return mockGenres;
+      }
+    } catch (error) {
+      console.error('Error loading mock genres, falling back to hardcoded list.', error);
+    }
+
+    // Hardcoded fallback if both API and mock data fail
+    return [
+      { name: 'Action', slug: 'action' },
+      { name: 'Adventure', slug: 'adventure' },
+      { name: 'Comedy', slug: 'comedy' },
+      { name: 'Drama', slug: 'drama' },
+      { name: 'Fantasy', slug: 'fantasy' },
+      { name: 'Horror', slug: 'horror' },
+      { name: 'Isekai', slug: 'isekai' },
+      { name: 'Magic', slug: 'magic' },
+      { name: 'Mecha', slug: 'mecha' },
+      { name: 'Music', slug: 'music' },
+      { name: 'Mystery', slug: 'mystery' },
+      { name: 'Psychological', slug: 'psychological' },
+      { name: 'Romance', slug: 'romance' },
+      { name: 'Sci-Fi', slug: 'sci-fi' },
+      { name: 'Slice of Life', slug: 'slice-of-life' },
+      { name: 'Sports', slug: 'sports' },
+      { name: 'Supernatural', slug: 'supernatural' },
+      { name: 'Thriller', slug: 'thriller' },
+      { name: 'Vampire', slug: 'vampire' },
+      { name: 'Yaoi', slug: 'yaoi' },
+      { name: 'Yuri', slug: 'yuri' }
+    ];
   }
 
   async getAnimeByGenre(genreSlug, page = 1) {

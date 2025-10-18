@@ -9,38 +9,19 @@ block content
           p(class="text-gray-600 dark:text-gray-400") Jelajahi anime berdasarkan genre favorit Anda
 
         if genres && genres.length > 0
-          div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8")
+          div(class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8")
             each genre in genres
-              a(href=`/genres/${genre.slug}` class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl dark:shadow-gray-900/50 p-6 transition-all duration-300 hover:scale-105 text-center border border-gray-100 dark:border-gray-700")
-                div(class="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-primary-800 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300")
-                  svg(class="w-8 h-8 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24")
-                    path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z")
-                h3(class="font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200")= genre.name
-                if genre.count
-                  p(class="text-sm text-gray-500 dark:text-gray-400")= `${genre.count} anime`
-                else
-                  p(class="text-sm text-gray-500 dark:text-gray-400") Lihat anime
-
+              a(href=`/genres/${genre.slug}` class="group block bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1")
+                div(class="p-4")
+                  h3(class="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors")= genre.name
         else
-          div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8")
-            each genre in ['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Romance', 'Sci-Fi', 'Thriller']
-              a(href=`/genres/${genre.toLowerCase()}` class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl dark:shadow-gray-900/50 p-6 transition-all duration-300 hover:scale-105 text-center border border-gray-100 dark:border-gray-700")
-                div(class="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-primary-800 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300")
-                  svg(class="w-8 h-8 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24")
-                    path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z")
-                h3(class="font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200")= genre
-                p(class="text-sm text-gray-500 dark:text-gray-400") Lihat anime
-
-        if adSlots && adSlots.contentBottom && adSlots.contentBottom.length > 0
-          div(class="mb-6")
-            each ad in adSlots.contentBottom
-              div(class="ad-slot bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg transition-colors duration-300")!= ad.content
+          div(class="text-center py-16")
+            svg(class="w-20 h-20 text-gray-300 dark:text-gray-600 mx-auto mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+              path(stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z")
+            h3(class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2") Genre tidak tersedia
+            p(class="text-gray-500 dark:text-gray-400") Maaf, kami tidak dapat memuat daftar genre saat ini.
 
       div(class="lg:col-span-1")
-        if adSlots && adSlots.sidebarTop && adSlots.sidebarTop.length > 0
-          div(class="mb-6")
-            each ad in adSlots.sidebarTop
-              div(class="ad-slot bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg transition-colors duration-300")!= ad.content
 
         div(class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300")
           h3(class="font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center")
@@ -70,7 +51,3 @@ block content
                 path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z")
               span Anime Complete
 
-        if adSlots && adSlots.sidebarBottom && adSlots.sidebarBottom.length > 0
-          div(class="mb-6")
-            each ad in adSlots.sidebarBottom
-              div(class="ad-slot bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg transition-colors duration-300")!= ad.content

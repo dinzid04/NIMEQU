@@ -9,36 +9,60 @@ block content
           p(class="text-gray-600 dark:text-gray-400") Daftar anime yang sedang tayang dengan subtitle Indonesia
 
         if animeList && animeList.length > 0
-          div(class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8")
+          div(class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8")
             each anime in animeList
               div(class="anime-card group relative")
                 a(href=`/anime/${anime.slug}`)
                   div(class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl dark:shadow-gray-900/50 overflow-hidden transform transition-all duration-300 hover:scale-105 border border-gray-100 dark:border-gray-700")
                     div(class="relative overflow-hidden")
-                      img(src=anime.poster alt=anime.title class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=No+Image';")
-                      div(class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300")
+                      img(src=anime.poster alt=anime.title class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110")
+                      div(class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300")
                       if anime.current_episode
-                        div(class="absolute top-3 left-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm")= anime.current_episode
+                        div(class="absolute top-3 left-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg")= anime.current_episode
                       if anime.newest_release_date
                         div(class="absolute top-3 right-3 bg-black/70 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full")= anime.newest_release_date
-                      div(class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300")
-                        div(class="flex items-center justify-between text-white")
-                          h3(class="font-bold text-sm text-gray-100 dark:text-gray-100 line-clamp-2 mb-2 transition-colors duration-200")= anime.title
+                      div(class="p-4")
+                        h3(class="font-bold text-sm text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200")= anime.title
 
-          if pagination && pagination.last_visible_page > 0
-            nav(class="flex justify-center")
-              div(class="flex items-center space-x-2")
+          if pagination && pagination.last_visible_page > 1
+            nav(class="flex justify-center mt-8")
+              ul(class="flex items-center -space-x-px h-10 text-base")
                 if pagination.current_page > 1
-                  a(href=`/ongoing?page=${pagination.current_page - 1}` class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200") Sebelumnya
-                
-                each page in Array.from({length: Math.min(5, pagination.last_visible_page)}, (_, i) => {const start = Math.max(1, pagination.current_page - 2);return start + i;}).filter(p => p <= pagination.last_visible_page)
-                  if page === pagination.current_page
-                    span(class="px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-lg font-medium")= page
-                  else
-                    a(href=`/ongoing?page=${page}` class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200")= page
+                  li
+                    a(href=`/ongoing?page=${pagination.current_page - 1}` class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white")
+                      span(class="sr-only") Previous
+                      svg(class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10")
+                        path(stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4")
+
+                - const maxPages = 5
+                - let startPage = Math.max(1, pagination.current_page - Math.floor(maxPages / 2))
+                - let endPage = Math.min(pagination.last_visible_page, startPage + maxPages - 1)
+                - if (endPage - startPage + 1 < maxPages) startPage = Math.max(1, endPage - maxPages + 1)
+
+                if startPage > 1
+                  li
+                    a(href="/ongoing?page=1" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white") 1
+                  if startPage > 2
+                    li
+                      span(class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400") ...
+
+                each page in Array.from({length: endPage - startPage + 1}, (_, i) => startPage + i)
+                  li
+                    a(href=`/ongoing?page=${page}` class=`flex items-center justify-center px-4 h-10 leading-tight ${page === pagination.current_page ? 'text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'}`)= page
+
+                if endPage < pagination.last_visible_page
+                  if endPage < pagination.last_visible_page - 1
+                    li
+                      span(class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400") ...
+                  li
+                    a(href=`/ongoing?page=${pagination.last_visible_page}` class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white")= pagination.last_visible_page
                 
                 if pagination.current_page < pagination.last_visible_page
-                  a(href=`/ongoing?page=${pagination.next_page}` class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200") Selanjutnya
+                  li
+                    a(href=`/ongoing?page=${pagination.current_page + 1}` class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white")
+                      span(class="sr-only") Next
+                      svg(class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10")
+                        path(stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4")
 
         else
           div(class="text-center py-12")
@@ -47,16 +71,7 @@ block content
             h3(class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2") Tidak ada anime ongoing
             p(class="text-gray-600 dark:text-gray-400") Belum ada data anime ongoing yang tersedia
 
-        if adSlots && adSlots.contentBottom && adSlots.contentBottom.length > 0
-          div(class="mb-6")
-            each ad in adSlots.contentBottom
-              div(class="ad-slot bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg transition-colors duration-300")!= ad.content
-
       div(class="lg:col-span-1")
-        if adSlots && adSlots.sidebarTop && adSlots.sidebarTop.length > 0
-          div(class="mb-6")
-            each ad in adSlots.sidebarTop
-              div(class="ad-slot bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg transition-colors duration-300")!= ad.content
 
         div(class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300")
           h3(class="font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center")
@@ -77,7 +92,3 @@ block content
                 path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z")
               span Genre Anime
 
-        if adSlots && adSlots.sidebarBottom && adSlots.sidebarBottom.length > 0
-          div(class="mb-6")
-            each ad in adSlots.sidebarBottom
-              div(class="ad-slot bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg transition-colors duration-300")!= ad.content

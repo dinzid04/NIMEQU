@@ -1,0 +1,7 @@
+Using MemoryStore for development environment
+(node:10373) Warning: Accessing non-existent property 'routes' of module exports inside circular dependency
+(Use `node --trace-warnings ...` to show where the warning was created)
+Connected to SQLite database
+Database initialized successfully
+ANIMAQU server running on port 3000
+Environment: development
