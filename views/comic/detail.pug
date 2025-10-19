@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  .container.mx-auto.px-4.py-8
+    .detail-container.flex.flex-col.md:flex-row.gap-8
+      .detail-cover.w-full.md:w-1/3
+        img.w-full.rounded-lg.shadow-lg(src=comic.imageSrc, alt=comic.title)
+      .detail-info.w-full.md:w-2/3
+        h1.detail-title.text-3xl.font-bold.mb-2= comic.title
+        .detail-meta.flex.flex-wrap.gap-4.text-gray-600.dark:text-gray-400.mb-4
+          span.detail-rating ⭐ #{comic.rating}
+          span= comic.status
+          span= comic.type
+          span= comic.released
+        .detail-genres.flex.flex-wrap.gap-2.mb-4
+          each genre in comic.genres
+            span.genre-tag.bg-primary-500.text-white.px-3.py-1.rounded-full.text-sm= genre.name
+        .detail-synopsis.mb-4
+          p= comic.synopsis
+        .detail-actions.flex.gap-4.mb-4
+            if comic.chapters && comic.chapters.length > 0
+                a.btn.btn-primary(href=`/comic/chapter/${comic.chapters[comic.chapters.length - 1].slug}`) Baca Chapter Pertama
+            a.btn.btn-secondary(href="#") Ikuti
+    .chapters-list.mt-8
+        h2.text-2xl.font-bold.mb-4 Daftar Chapter
+        ul.bg-white.dark:bg-gray-800.rounded-lg.shadow-md.overflow-hidden
+            each chapter in comic.chapters
+                li.chapter-item.border-b.dark:border-gray-700
+                    a.block.p-4.hover:bg-gray-100.dark:hover:bg-gray-700.transition-colors(href=`/comic/chapter/${chapter.slug}`)
+                        span.chapter-title= chapter.title
+                        span.chapter-date.float-right.text-gray-500.dark:text-gray-400.text-sm= chapter.date

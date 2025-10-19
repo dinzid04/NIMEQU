@@ -11,12 +11,11 @@ const createSessionConfig = require('./config/session');
 
 const indexRoutes = require('./routes/index');
 const animeRoutes = require('./routes/anime');
+const comicRoutes = require('./routes/comic');
 const adminRoutes = require('./routes/admin');
 const apiRoutes = require('./routes/api');
 
 const cookieConsent = require('./middleware/cookieConsent');
-const adSlots = require('./middleware/adSlots');
-
 const { initializeDatabase } = require('./models/database');
 
 const app = express();
@@ -67,10 +66,10 @@ app.use(session(createSessionConfig()));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cookieConsent);
-app.use(adSlots);
 
 app.use('/', indexRoutes);
 app.use('/anime', animeRoutes);
+app.use('/comic', comicRoutes);
 app.use('/admin', adminRoutes);
 app.use('/api', apiRoutes);
 

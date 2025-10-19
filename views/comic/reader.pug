@@ -1,0 +1,71 @@
+extends ../layout
+
+block content
+  #readerPage.container.mx-auto.px-4.py-8
+    .reader-container.flex.flex-col.items-center
+      .reader-header.w-full.flex.justify-between.items-center.py-4.mb-4.border-b
+        h1#readerTitle.text-2xl.font-bold Loading Chapter...
+        .reader-nav.flex.gap-4
+          button#prevChapter.btn.btn-secondary(disabled) ❮ Previous
+          button#nextChapter.btn.btn-secondary(disabled) Next ❯
+      #readerContent.w-full.flex.flex-col.items-center.gap-2
+        //- Chapter images will be populated by JavaScript
+
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+      const BASE_URL = 'https://www.sankavollerei.com/comic';
+      const chapterSlug = !{JSON.stringify(chapterSlug)};
+      let chaptersList = [];
+      let currentChapterData = null;
+
+      const readerTitle = document.getElementById('readerTitle');
+      const readerContent = document.getElementById('readerContent');
+      const prevChapter = document.getElementById('prevChapter');
+      const nextChapter = document.getElementById('nextChapter');
+
+      async function loadChapter(slug) {
+        try {
+          readerContent.innerHTML = '<p>Loading images...</p>';
+          const response = await fetch(`${BASE_URL}/kiryuu/chapter/${slug}`);
+          const data = await response.json();
+
+          if (data.success) {
+            currentChapterData = data;
+            readerTitle.textContent = data.title;
+            readerContent.innerHTML = '';
+            data.images.forEach(imageSrc => {
+              const img = document.createElement('img');
+              img.className = 'reader-image max-w-full rounded shadow-md';
+              img.src = imageSrc;
+              img.alt = data.title;
+              readerContent.appendChild(img);
+            });
+
+            // To enable next/prev, we need the context of the full chapter list from the manga detail page.
+            // This is a limitation of the current API design.
+            // As a workaround, we will check for next/prev slugs from the chapter response itself.
+            if (data.prevSlug) {
+              prevChapter.disabled = false;
+              prevChapter.onclick = () => window.location.href = `/comic/chapter/${data.prevSlug}`;
+            } else {
+              prevChapter.disabled = true;
+            }
+
+            if (data.nextSlug) {
+              nextChapter.disabled = false;
+              nextChapter.onclick = () => window.location.href = `/comic/chapter/${data.nextSlug}`;
+            } else {
+              nextChapter.disabled = true;
+            }
+
+          } else {
+            readerContent.innerHTML = '<p>Failed to load chapter.</p>';
+          }
+        } catch (error) {
+          console.error('Error loading chapter:', error);
+          readerContent.innerHTML = '<p>An error occurred while loading the chapter.</p>';
+        }
+      }
+
+      loadChapter(chapterSlug);
+    });
