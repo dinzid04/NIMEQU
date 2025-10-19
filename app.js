@@ -15,7 +15,6 @@ const adminRoutes = require('./routes/admin');
 const apiRoutes = require('./routes/api');
 
 const cookieConsent = require('./middleware/cookieConsent');
-const adSlots = require('./middleware/adSlots');
 
 const { initializeDatabase } = require('./models/database');
 
@@ -67,7 +66,6 @@ app.use(session(createSessionConfig()));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cookieConsent);
-app.use(adSlots);
 
 app.use('/', indexRoutes);
 app.use('/anime', animeRoutes);

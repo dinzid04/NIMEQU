@@ -14,7 +14,7 @@ block content
 
         div(class="bg-white rounded-lg shadow-sm p-6 mb-6")
           div(class="flex items-start space-x-4")
-            img(src=anime.poster alt=anime.title class="w-24 h-32 object-cover rounded-lg flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=No+Image';")
+            img(src=anime.poster alt=anime.title class="w-24 h-32 object-cover rounded-lg flex-shrink-0")
             div(class="flex-1")
               h1(class="text-xl md:text-2xl font-bold text-gray-900 mb-2")= `Episode ${anime.title}`
               if anime.synopsis

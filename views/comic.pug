@@ -1,0 +1,238 @@
+extends layout
+
+block content
+  div(id="comic-app" class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans")
+    main(class="container mx-auto px-4 py-6")
+      // Home Page Content
+      div(id="homePage")
+        // Slider/Banner
+        section(class="slider relative mb-8 rounded-2xl overflow-hidden shadow-lg")
+          div(id="sliderContainer" class="flex transition-transform duration-500 ease-in-out")
+            // Slider items will be populated by JavaScript
+          button(id="sliderPrev" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full focus:outline-none") ❮
+          button(id="sliderNext" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full focus:outline-none") ❯
+
+        // Latest Updates
+        section
+          div(class="flex justify-between items-center mb-4")
+            h2(class="text-2xl font-bold") 📖 Terbaru
+            a(href="#" class="text-primary-600 dark:text-primary-400 font-medium") Lihat Semua
+          div(id="latestGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4")
+            // Latest items will be populated by JavaScript
+
+        // Popular
+        section(class="mt-8")
+          div(class="flex justify-between items-center mb-4")
+            h2(class="text-2xl font-bold") 🔥 Populer
+            a(href="#" class="text-primary-600 dark:text-primary-400 font-medium") Lihat Semua
+          div(id="popularGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4")
+            // Popular items will be populated by JavaScript
+
+      // Search Page Content
+      div(id="searchPage" style="display: none;")
+        h1(class="text-3xl font-bold mb-4") Hasil Pencarian
+        div(id="searchInfo" class="text-gray-600 dark:text-gray-300 mb-4")
+        div(id="searchGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4")
+          // Search results will be populated by JavaScript
+
+      // Detail Page Content
+      div(id="detailPage" style="display: none;")
+        div(class="detail-container")
+          // Detail content will be populated by JavaScript
+
+      // Chapter Reader Content
+      div(id="readerPage" style="display: none;")
+        div(class="reader-container")
+          div(class="reader-header mb-4")
+            h2(id="readerTitle" class="text-2xl font-bold")
+            div(class="reader-nav flex justify-between mt-4")
+              button(id="prevChapter" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700") ❮ Chapter Sebelumnya
+              button(id="nextChapter" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700") Chapter Selanjutnya ❯
+          div(id="readerContent" class="flex flex-col items-center")
+            // Chapter images will be populated by JavaScript
+
+block scripts
+  script.
+    const BASE_URL = 'https://www.sankavollerei.com/comic';
+    let currentPage = 'home';
+    let currentSliderIndex = 0;
+    let sliderInterval;
+    let searchQuery = '';
+    let currentManhwaSlug = '';
+    let currentChapterSlug = '';
+    let chaptersList = [];
+
+    const homePage = document.getElementById('homePage');
+    const searchPage = document.getElementById('searchPage');
+    const detailPage = document.getElementById('detailPage');
+    const readerPage = document.getElementById('readerPage');
+
+    function navigateToPage(page) {
+      homePage.style.display = 'none';
+      searchPage.style.display = 'none';
+      detailPage.style.display = 'none';
+      readerPage.style.display = 'none';
+      if (page === 'home') homePage.style.display = 'block';
+      if (page === 'search') searchPage.style.display = 'block';
+      if (page === 'detail') detailPage.style.display = 'block';
+      if (page === 'reader') readerPage.style.display = 'block';
+      currentPage = page;
+    }
+
+    async function fetchAndPopulate(url, container, renderer) {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.success) {
+          container.innerHTML = '';
+          data.results.forEach(item => container.appendChild(renderer(item)));
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    function createComicCard(item) {
+      const card = document.createElement('div');
+      card.className = 'bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 transition-all duration-300';
+      card.innerHTML = `
+        <a href="#" data-slug="${item.slug}" class="block comic-link">
+          <img src="${item.imageSrc}" alt="${item.title}" class="w-full h-64 object-cover">
+          <div class="p-4">
+            <h3 class="font-bold text-md mb-2">${item.title}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">${item.latestChapter || ''}</p>
+          </div>
+        </a>
+      `;
+      card.querySelector('.comic-link').addEventListener('click', (e) => {
+        e.preventDefault();
+        currentManhwaSlug = item.slug;
+        loadManhwaDetail(item.slug);
+        navigateToPage('detail');
+      });
+      return card;
+    }
+
+    async function loadHomePage() {
+      const latestGrid = document.getElementById('latestGrid');
+      const popularGrid = document.getElementById('popularGrid');
+
+      fetchAndPopulate(`${BASE_URL}/kiryuu/latest`, latestGrid, createComicCard);
+      fetchAndPopulate(`${BASE_URL}/kiryuu/popular`, popularGrid, createComicCard);
+
+      const response = await fetch(`${BASE_URL}/kiryuu/home`);
+      const data = await response.json();
+      if(data.success) {
+        populateSlider(data.trending.slice(0, 6));
+      }
+    }
+
+    function populateSlider(items) {
+      const sliderContainer = document.getElementById('sliderContainer');
+      sliderContainer.innerHTML = '';
+      items.forEach(item => {
+        const slide = document.createElement('div');
+        slide.className = 'w-full flex-shrink-0 relative slider-item';
+        slide.innerHTML = `
+          <img src="${item.imageSrc}" alt="${item.title}" class="w-full h-64 md:h-96 object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20"></div>
+          <div class="absolute bottom-0 left-0 p-6 md:p-8 text-white">
+            <h2 class="text-2xl md:text-4xl font-bold mb-2">${item.title}</h2>
+            <a href="#" data-slug="${item.slug}" class="mt-4 inline-block bg-primary-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-primary-700 transition-colors comic-link">Baca Sekarang</a>
+          </div>
+        `;
+        slide.querySelector('.comic-link').addEventListener('click', (e) => {
+          e.preventDefault();
+          currentManhwaSlug = item.slug;
+          loadManhwaDetail(item.slug);
+          navigateToPage('detail');
+        });
+        sliderContainer.appendChild(slide);
+      });
+      startSlider(items.length);
+    }
+
+    function startSlider(slideCount) {
+      const slider = document.getElementById('sliderContainer');
+      const prevButton = document.getElementById('sliderPrev');
+      const nextButton = document.getElementById('sliderNext');
+      let currentIndex = 0;
+
+      function goToSlide(index) {
+        currentIndex = (index + slideCount) % slideCount;
+        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      nextButton.addEventListener('click', () => goToSlide(currentIndex + 1));
+      prevButton.addEventListener('click', () => goToSlide(currentIndex - 1));
+
+      setInterval(() => goToSlide(currentIndex + 1), 5000);
+    }
+
+    async function loadManhwaDetail(slug) {
+      const response = await fetch(`${BASE_URL}/kiryuu/manga/${slug}`);
+      const data = await response.json();
+      if (data.success) {
+        const detailContainer = document.querySelector('#detailPage .detail-container');
+        chaptersList = data.chapters;
+        detailContainer.innerHTML = `
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <img src="${data.imageSrc}" alt="${data.title}" class="rounded-lg shadow-md">
+            </div>
+            <div class="md:col-span-2">
+              <h1 class="text-3xl font-bold mb-4">${data.title}</h1>
+              <div class="flex flex-wrap gap-2 mb-4">
+                ${data.genres.map(g => `<span class="bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded">${g.name}</span>`).join('')}
+              </div>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">${data.synopsis}</p>
+              <div id="chaptersList" class="max-h-96 overflow-y-auto">
+                ${data.chapters.map(c => `
+                  <a href="#" data-slug="${c.slug}" class="block p-4 border-b dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 chapter-link">${c.title}</a>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+        document.querySelectorAll('.chapter-link').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentChapterSlug = link.dataset.slug;
+            loadChapter(currentChapterSlug);
+            navigateToPage('reader');
+          });
+        });
+      }
+    }
+
+    async function loadChapter(slug) {
+      const response = await fetch(`${BASE_URL}/kiryuu/chapter/${slug}`);
+      const data = await response.json();
+      if (data.success) {
+        const readerContent = document.getElementById('readerContent');
+        document.getElementById('readerTitle').textContent = data.title;
+        readerContent.innerHTML = data.images.map(src => `<img src="${src}" class="w-full mb-2">`).join('');
+
+        const currentIndex = chaptersList.findIndex(c => c.slug === slug);
+        document.getElementById('prevChapter').disabled = currentIndex === chaptersList.length - 1;
+        document.getElementById('nextChapter').disabled = currentIndex === 0;
+      }
+    }
+
+    document.getElementById('prevChapter').addEventListener('click', () => {
+      const currentIndex = chaptersList.findIndex(c => c.slug === currentChapterSlug);
+      if (currentIndex < chaptersList.length - 1) {
+        currentChapterSlug = chaptersList[currentIndex + 1].slug;
+        loadChapter(currentChapterSlug);
+      }
+    });
+
+    document.getElementById('nextChapter').addEventListener('click', () => {
+      const currentIndex = chaptersList.findIndex(c => c.slug === currentChapterSlug);
+      if (currentIndex > 0) {
+        currentChapterSlug = chaptersList[currentIndex - 1].slug;
+        loadChapter(currentChapterSlug);
+      }
+    });
+
+    loadHomePage();

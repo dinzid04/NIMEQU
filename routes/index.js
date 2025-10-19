@@ -35,11 +35,16 @@ router.get('/', async (req, res) => {
     const siteTitle = await getSetting('site_title') || 'ANIMAQU - Streaming Anime Subtitle Indonesia';
     const siteDescription = await getSetting('site_description') || 'Nonton anime subtitle Indonesia terlengkap dan terbaru';
     
+    // Select 6 random ongoing anime for the slider
+    const ongoingAnime = homeData?.ongoing_anime || [];
+    const sliderAnime = ongoingAnime.sort(() => 0.5 - Math.random()).slice(0, 6);
+
     res.render('index', {
       title: siteTitle,
       description: siteDescription,
-      ongoingAnime: homeData?.ongoing_anime || [],
+      ongoingAnime: ongoingAnime,
       completeAnime: homeData?.complete_anime || [],
+      sliderAnime: sliderAnime,
       currentPage: 'home'
     });
   } catch (error) {
@@ -661,6 +666,14 @@ router.post('/cookie-consent', (req, res) => {
     secure: process.env.NODE_ENV === 'production'
   });
   res.json({ success: true });
+});
+
+router.get('/comic', (req, res) => {
+  res.render('comic', {
+    title: 'COMICKU - Baca Manhwa Gratis',
+    description: 'Baca manhwa, manhua, dan manga subtitle Indonesia gratis di ANIMAQU',
+    currentPage: 'comic'
+  });
 });
 
 module.exports = router;
