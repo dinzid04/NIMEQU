@@ -2,11 +2,31 @@ extends layout
 
 block content
   div(class="container mx-auto px-4 py-6")
-    section(class="mb-8")
-      div(class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-700 dark:to-primary-900 rounded-xl p-8 text-white transition-colors duration-300")
-        div(class="max-w-2xl")
-          h1(class="text-3xl md:text-4xl font-bold mb-4") Selamat Datang di ANIMAQU
-          p(class="text-lg opacity-90 mb-6") Platform streaming anime subtitle Indonesia terlengkap. Nikmati ribuan anime berkualitas tinggi dengan subtitle Indonesia yang akurat.
+    if sliderAnime && sliderAnime.length > 0
+      section(class="mb-8 relative" id="slider-container")
+        div(class="overflow-hidden relative rounded-xl")
+          div(class="flex transition-transform duration-500 ease-in-out" id="slider")
+            each anime, index in sliderAnime
+              div(class="w-full flex-shrink-0 relative slider-item")
+                img(src=anime.poster alt=anime.title class="w-full h-48 md:h-64 lg:h-96 object-cover")
+                div(class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent")
+                div(class="absolute bottom-0 left-0 p-4 md:p-8 text-white")
+                  h2(class="text-xl md:text-3xl font-bold line-clamp-2")= anime.title
+                  if anime.current_episode
+                    span(class="text-sm bg-primary-500 text-white px-2 py-1 rounded-md")= anime.current_episode
+                  a(href=`/anime/${anime.slug}` class="mt-2 md:mt-4 inline-block bg-white text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition-colors") Tonton Sekarang
+
+        button(id="prev-slide" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/75 transition-colors z-10")
+          svg(class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7")
+
+        button(id="next-slide" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/75 transition-colors z-10")
+          svg(class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7")
+
+        div(class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2" id="slider-dots")
+          each anime, index in sliderAnime
+            button(class="w-3 h-3 rounded-full transition-colors " + (index === 0 ? "bg-white" : "bg-white/50 hover:bg-white") data-slide-to=index)
 
     div(class="grid grid-cols-1 lg:grid-cols-4 gap-8")
       div(class="lg:col-span-3")
@@ -64,16 +84,8 @@ block content
                           div(class="flex items-center justify-between text-white")
                             h3(class="font-bold text-sm text-gray-100 line-clamp-2 mb-2 transition-colors duration-200")= anime.title
 
-        if adSlots && adSlots.contentBottom && adSlots.contentBottom.length > 0
-          section(class="mb-8")
-            each ad in adSlots.contentBottom
-              div(class="ad-slot bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg transition-colors duration-300")!= ad.content
 
       div(class="lg:col-span-1")
-        if adSlots && adSlots.sidebarTop && adSlots.sidebarTop.length > 0
-          div(class="mb-6")
-            each ad in adSlots.sidebarTop
-              div(class="ad-slot bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg transition-colors duration-300")!= ad.content
 
         div(class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300")
           h3(class="font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center")
@@ -112,10 +124,6 @@ block content
                 div(id="qrcode")
               p(class="text-primary-800 dark:text-primary-200 text-sm leading-relaxed")= expired
 
-        if adSlots && adSlots.sidebarBottom && adSlots.sidebarBottom.length > 0
-          div(class="mb-6")
-            each ad in adSlots.sidebarBottom
-              div(class="ad-slot bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg transition-colors duration-300")!= ad.content
 
         div(class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-2xl p-6 border border-primary-200 dark:border-primary-700 transition-colors duration-300")
           h3(class="font-bold text-primary-900 dark:text-primary-100 mb-3 flex items-center")
@@ -164,3 +172,74 @@ block scripts
         });
       });
     });
+
+    // Slider functionality
+    const slider = document.getElementById('slider');
+    const prevButton = document.getElementById('prev-slide');
+    const nextButton = document.getElementById('next-slide');
+    const dotsContainer = document.getElementById('slider-dots');
+    const slides = document.querySelectorAll('.slider-item');
+    const slideCount = slides.length;
+    let currentIndex = 0;
+    let autoSlideInterval;
+
+    function goToSlide(index) {
+      if (index < 0) {
+        index = slideCount - 1;
+      } else if (index >= slideCount) {
+        index = 0;
+      }
+      currentIndex = index;
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+      updateDots();
+    }
+
+    function updateDots() {
+      const dots = dotsContainer.children;
+      for (let i = 0; i < dots.length; i++) {
+        if (i === currentIndex) {
+          dots[i].classList.add('bg-white');
+          dots[i].classList.remove('bg-white/50');
+        } else {
+          dots[i].classList.add('bg-white/50');
+          dots[i].classList.remove('bg-white');
+        }
+      }
+    }
+
+    function startAutoSlide() {
+      stopAutoSlide();
+      autoSlideInterval = setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, 5000);
+    }
+
+    function stopAutoSlide() {
+      clearInterval(autoSlideInterval);
+    }
+
+    prevButton.addEventListener('click', () => {
+      goToSlide(currentIndex - 1);
+      stopAutoSlide();
+      startAutoSlide();
+    });
+
+    nextButton.addEventListener('click', () => {
+      goToSlide(currentIndex + 1);
+      stopAutoSlide();
+      startAutoSlide();
+    });
+
+    dotsContainer.addEventListener('click', (e) => {
+      if (e.target.matches('[data-slide-to]')) {
+        const slideIndex = parseInt(e.target.dataset.slideTo);
+        goToSlide(slideIndex);
+        stopAutoSlide();
+        startAutoSlide();
+      }
+    });
+
+    document.getElementById('slider-container').addEventListener('mouseenter', stopAutoSlide);
+    document.getElementById('slider-container').addEventListener('mouseleave', startAutoSlide);
+
+    startAutoSlide();

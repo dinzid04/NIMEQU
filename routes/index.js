@@ -35,11 +35,17 @@ router.get('/', async (req, res) => {
     const siteTitle = await getSetting('site_title') || 'ANIMAQU - Streaming Anime Subtitle Indonesia';
     const siteDescription = await getSetting('site_description') || 'Nonton anime subtitle Indonesia terlengkap dan terbaru';
     
+    // Shuffle ongoing anime for the slider
+    const ongoingAnime = homeData?.ongoing_anime || [];
+    const shuffledOngoing = [...ongoingAnime].sort(() => 0.5 - Math.random());
+    const sliderAnime = shuffledOngoing.slice(0, 6);
+
     res.render('index', {
       title: siteTitle,
       description: siteDescription,
-      ongoingAnime: homeData?.ongoing_anime || [],
+      ongoingAnime: ongoingAnime,
       completeAnime: homeData?.complete_anime || [],
+      sliderAnime: sliderAnime,
       currentPage: 'home'
     });
   } catch (error) {

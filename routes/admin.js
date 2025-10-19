@@ -5,10 +5,6 @@ const {
   getAdminByUsername,
   getAllApiEndpoints,
   updateApiEndpoint,
-  getAllAdSlots,
-  addAdSlot,
-  updateAdSlot,
-  deleteAdSlot,
   getSetting,
   updateSetting
 } = require('../models/database');
@@ -27,7 +23,7 @@ router.get('/login', (req, res) => {
   }
 
   res.render('admin/login', {
-    title: 'Admin Login - KitaNime',
+    title: 'Admin Login - ANIMAQU',
     layout: 'admin/layout',
     error: req.query.error
   });
@@ -75,26 +71,23 @@ router.post('/logout', (req, res) => {
 
 router.get('/', requireAuth, async (req, res) => {
   try {
-    const [apiEndpoints, adSlots] = await Promise.all([
-      getAllApiEndpoints(),
-      getAllAdSlots()
+    const [apiEndpoints] = await Promise.all([
+      getAllApiEndpoints()
     ]);
 
     res.render('admin/dashboard', {
-      title: 'Admin Dashboard - KitaNime',
+      title: 'Admin Dashboard - ANIMAQU',
       layout: 'admin/layout',
       user: req.session.adminUser,
       stats: {
-        apiEndpoints: apiEndpoints.length,
-        adSlots: adSlots.length,
-        activeAdSlots: adSlots.filter(slot => slot.is_active).length
+        apiEndpoints: apiEndpoints.length
       },
       req: req
     });
   } catch (error) {
     console.error('Admin dashboard error:', error);
     res.render('admin/error', {
-      title: 'Error - Admin KitaNime',
+      title: 'Error - Admin ANIMAQU',
       layout: 'admin/layout',
       error: 'Tidak dapat memuat dashboard'
     });
@@ -106,7 +99,7 @@ router.get('/api-endpoints', requireAuth, async (req, res) => {
     const endpoints = await getAllApiEndpoints();
 
     res.render('admin/api-endpoints', {
-      title: 'Kelola API Endpoints - Admin KitaNime',
+      title: 'Kelola API Endpoints - Admin ANIMAQU',
       layout: 'admin/layout',
       user: req.session.adminUser,
       endpoints,
@@ -115,7 +108,7 @@ router.get('/api-endpoints', requireAuth, async (req, res) => {
   } catch (error) {
     console.error('API endpoints page error:', error);
     res.render('admin/error', {
-      title: 'Error - Admin KitaNime',
+      title: 'Error - Admin ANIMAQU',
       layout: 'admin/layout',
       error: 'Tidak dapat memuat data API endpoints'
     });
@@ -136,67 +129,6 @@ router.post('/api-endpoints/:id', requireAuth, async (req, res) => {
   }
 });
 
-router.get('/ad-slots', requireAuth, async (req, res) => {
-  try {
-    const adSlots = await getAllAdSlots();
-
-    res.render('admin/ad-slots', {
-      title: 'Kelola Slot Iklan - Admin KitaNime',
-      layout: 'admin/layout',
-      user: req.session.adminUser,
-      adSlots,
-      req: req
-    });
-  } catch (error) {
-    console.error('Ad slots page error:', error);
-    res.render('admin/error', {
-      title: 'Error - Admin KitaNime',
-      layout: 'admin/layout',
-      error: 'Tidak dapat memuat data slot iklan'
-    });
-  }
-});
-
-router.post('/ad-slots', requireAuth, async (req, res) => {
-  try {
-    const { name, position, type, content, is_active } = req.body;
-
-    await addAdSlot(name, position, type, content, is_active === 'on');
-
-    res.redirect('/admin/ad-slots?success=added');
-  } catch (error) {
-    console.error('Add ad slot error:', error);
-    res.redirect('/admin/ad-slots?error=add_failed');
-  }
-});
-
-router.post('/ad-slots/:id', requireAuth, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, position, type, content, is_active } = req.body;
-
-    await updateAdSlot(id, name, position, type, content, is_active === 'on');
-
-    res.redirect('/admin/ad-slots?success=updated');
-  } catch (error) {
-    console.error('Update ad slot error:', error);
-    res.redirect('/admin/ad-slots?error=update_failed');
-  }
-});
-
-router.delete('/ad-slots/:id', requireAuth, async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    await deleteAdSlot(id);
-
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Delete ad slot error:', error);
-    res.status(500).json({ error: 'Delete failed' });
-  }
-});
-
 router.get('/settings', requireAuth, async (req, res) => {
   try {
     const [siteTitle, siteDescription, cookieConsentEnabled, adsenseEnabled] = await Promise.all([
@@ -207,7 +139,7 @@ router.get('/settings', requireAuth, async (req, res) => {
     ]);
 
     res.render('admin/settings', {
-      title: 'Pengaturan - Admin KitaNime',
+      title: 'Pengaturan - Admin ANIMAQU',
       layout: 'admin/layout',
       user: req.session.adminUser,
       settings: {
@@ -221,7 +153,7 @@ router.get('/settings', requireAuth, async (req, res) => {
   } catch (error) {
     console.error('Settings page error:', error);
     res.render('admin/error', {
-      title: 'Error - Admin KitaNime',
+      title: 'Error - Admin ANIMAQU',
       layout: 'admin/layout',
       error: 'Tidak dapat memuat pengaturan'
     });
@@ -248,7 +180,7 @@ router.post('/settings', requireAuth, async (req, res) => {
 
 router.get('/preview', requireAuth, (req, res) => {
   res.render('admin/preview', {
-    title: 'Preview Website - Admin KitaNime',
+    title: 'Preview Website - Admin ANIMAQU',
     layout: 'admin/layout',
     user: req.session.adminUser
   });
