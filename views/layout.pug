@@ -230,10 +230,10 @@ html(lang="id" class="scroll-smooth")
           svg(class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24")
             path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z")
           span(class="text-xs") Genre
-        a(href="/comic" class="flex flex-col items-center justify-center text-center p-2" class=(currentPage === 'comic' ? 'text-primary-600' : 'text-gray-600 dark:text-gray-300'))
-          svg(class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24")
-            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18")
-          span(class="text-xs") Comic
+        a(href="https://manhwaqu.vercel.app/" target="_blank" class="flex flex-col items-center justify-center text-center p-2 transition-colors text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400")
+            svg(class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24")
+              path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253")
+            span(class="text-xs font-medium") Comic
 
     footer(class="bg-gray-900 dark:bg-gray-950 text-white mt-12 transition-colors duration-300 hidden md:block")
       div(class="container mx-auto px-4 py-8")
