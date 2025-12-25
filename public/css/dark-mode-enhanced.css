@@ -124,4 +124,35 @@
 
 .dark .text-green-800 {
   color: #34d399 !important;
-} 
+}
+
+/* Comic Page Styles */
+.comic-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comic-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .comic-card {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+
+.dark .comic-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+}
+
+.chapter-list a {
+  transition: background-color 0.2s ease;
+}
+
+.chapter-list a:hover {
+  background-color: #f3f4f6;
+}
+
+.dark .chapter-list a:hover {
+  background-color: #374151;
+}

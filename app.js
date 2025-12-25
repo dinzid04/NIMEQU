@@ -13,9 +13,9 @@ const indexRoutes = require('./routes/index');
 const animeRoutes = require('./routes/anime');
 const adminRoutes = require('./routes/admin');
 const apiRoutes = require('./routes/api');
+const comicRoutes = require('./routes/comic');
 
 const cookieConsent = require('./middleware/cookieConsent');
-const adSlots = require('./middleware/adSlots');
 
 const { initializeDatabase } = require('./models/database');
 
@@ -67,16 +67,16 @@ app.use(session(createSessionConfig()));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cookieConsent);
-app.use(adSlots);
 
 app.use('/', indexRoutes);
 app.use('/anime', animeRoutes);
 app.use('/admin', adminRoutes);
 app.use('/api', apiRoutes);
+app.use('/comic', comicRoutes);
 
 app.use((req, res) => {
   res.status(404).render('error', {
-    title: 'Halaman Tidak Ditemukan - KitaNime',
+    title: 'Halaman Tidak Ditemukan - ANIMAQU',
     error: {
       status: 404,
       message: 'Halaman yang Anda cari tidak ditemukan'
@@ -87,7 +87,7 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).render('error', {
-    title: 'Terjadi Kesalahan - KitaNime',
+    title: 'Terjadi Kesalahan - ANIMAQU',
     error: {
       status: err.status || 500,
       message: process.env.NODE_ENV === 'production' ? 
@@ -104,7 +104,7 @@ async function startServer() {
     // Only start server if not in Vercel environment
     if (!process.env.VERCEL) {
       app.listen(PORT, () => {
-        console.log(`KitaNime server running on port ${PORT}`);
+        console.log(`ANIMAQU server running on port ${PORT}`);
         console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
       });
     }

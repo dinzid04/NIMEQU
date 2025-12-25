@@ -150,6 +150,14 @@ class AnimeApiService {
     return await this.makeRequest(`/genres/${genreSlug}/${page}`, { page });
   }
 
+  async getComicList(page = 1) {
+    return await this.makeRequest('/komik/list', { page });
+  }
+
+  async getComicDetail(slug) {
+    return await this.makeRequest(`/komik/detail/${slug}`);
+  }
+
   validateAnimeData(data, slug = null) {
     if (!data) return null;
     const sanitized = {

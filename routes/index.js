@@ -32,20 +32,26 @@ const getSourceVideo = async (url) => {
 router.get('/', async (req, res) => {
   try {
     const homeData = await animeApi.getHomeData();
-    const siteTitle = await getSetting('site_title') || 'KitaNime - Streaming Anime Subtitle Indonesia';
+    const siteTitle = await getSetting('site_title') || 'ANIMAQU - Streaming Anime Subtitle Indonesia';
     const siteDescription = await getSetting('site_description') || 'Nonton anime subtitle Indonesia terlengkap dan terbaru';
+
+    // Shuffle ongoing anime and pick 3 for the hero slider
+    const ongoingAnime = homeData?.ongoing_anime || [];
+    const shuffledOngoing = ongoingAnime.sort(() => 0.5 - Math.random());
+    const featuredAnime = shuffledOngoing.slice(0, 6);
     
     res.render('index', {
       title: siteTitle,
       description: siteDescription,
-      ongoingAnime: homeData?.ongoing_anime || [],
+      featuredAnime: featuredAnime,
+      ongoingAnime: ongoingAnime,
       completeAnime: homeData?.complete_anime || [],
       currentPage: 'home'
     });
   } catch (error) {
     console.error('Home page error:', error);
     res.render('error', {
-      title: 'Terjadi Kesalahan - KitaNime',
+      title: 'Terjadi Kesalahan - ANIMAQU',
       error: {
         status: 500,
         message: 'Tidak dapat memuat data anime'
@@ -59,7 +65,7 @@ router.post('/', async(req, res) => {
     const {price} = req.body;
     try{
       const homeData = await animeApi.getHomeData();
-      const siteTitle = await getSetting('site_title') || 'KitaNime - Streaming Anime Subtitle Indonesia';
+      const siteTitle = await getSetting('site_title') || 'ANIMAQU - Streaming Anime Subtitle Indonesia';
       const siteDescription = await getSetting('site_description') || 'Nonton anime subtitle Indonesia terlengkap dan terbaru';
       const headers = {
         "Accept": "*/*",
@@ -104,7 +110,7 @@ router.post('/', async(req, res) => {
     }catch(err){
       console.error('Home page error:', err);
       res.render('error', {
-        title: 'Terjadi Kesalahan - KitaNime',
+        title: 'Terjadi Kesalahan - ANIMAQU',
         error: {
           status: 500,
           message: 'Tidak dapat memuat data anime'
@@ -263,7 +269,7 @@ router.get('/ongoing', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const ongoingData = await animeApi.getOngoingAnime(page);
     res.render('ongoing', {
-      title: `Anime Ongoing - Halaman ${page} - KitaNime`,
+      title: `Anime Ongoing - Halaman ${page} - ANIMAQU`,
       description: 'Daftar anime ongoing terbaru dengan subtitle Indonesia',
       animeList: ongoingData.data || [],
       pagination: ongoingData?.pagination || { current_page: page, last_visible_page: 1 },
@@ -272,7 +278,7 @@ router.get('/ongoing', async (req, res) => {
   } catch (error) {
     console.error('Ongoing page error:', error);
     res.render('error', {
-      title: 'Terjadi Kesalahan - KitaNime',
+      title: 'Terjadi Kesalahan - ANIMAQU',
       error: {
         status: 500,
         message: 'Tidak dapat memuat data anime ongoing'
@@ -286,7 +292,7 @@ router.get('/complete', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const completeData = await animeApi.getCompleteAnime(page);
     res.render('complete', {
-      title: `Anime Complete - Halaman ${page} - KitaNime`,
+      title: `Anime Complete - Halaman ${page} - ANIMAQU`,
       description: 'Daftar anime complete dengan subtitle Indonesia',
       animeList: completeData?.data || [],
       pagination: completeData?.pagination || { current_page: page, total_pages: 1 },
@@ -295,7 +301,7 @@ router.get('/complete', async (req, res) => {
   } catch (error) {
     console.error('Complete page error:', error);
     res.render('error', {
-      title: 'Terjadi Kesalahan - KitaNime',
+      title: 'Terjadi Kesalahan - ANIMAQU',
       error: {
         status: 500,
         message: 'Tidak dapat memuat data anime complete'
@@ -315,10 +321,10 @@ router.get('/search', async (req, res) => {
     }
     const genres = await animeApi.getGenres();
     res.render('search', {
-      title: keyword ? `Pencarian: ${keyword} - KitaNime` : 'Pencarian Anime - KitaNime',
+      title: keyword ? `Pencarian: ${keyword} - ANIMAQU` : 'Pencarian Anime - ANIMAQU',
       description: keyword ? `Hasil pencarian untuk "${keyword}"` : 'Cari anime favorit Anda',
       keyword,
-      searchResults: searchResults.data || [],
+      searchResults: searchResults ? searchResults.data : [],
       pagination: searchResults?.pagination || { current_page: page, total_pages: 1 },
       currentPage: 'search',
       genres
@@ -326,7 +332,7 @@ router.get('/search', async (req, res) => {
   } catch (error) {
     console.error('Search page error:', error);
     res.render('error', {
-      title: 'Terjadi Kesalahan - KitaNime',
+      title: 'Terjadi Kesalahan - ANIMAQU',
       error: {
         status: 500,
         message: 'Tidak dapat melakukan pencarian'
@@ -339,7 +345,7 @@ router.get('/genres', async (req, res) => {
   try {
     const genresData = await animeApi.getGenres();
     res.render('genres', {
-      title: 'Genre Anime - KitaNime',
+      title: 'Genre Anime - ANIMAQU',
       description: 'Jelajahi anime berdasarkan genre favorit Anda',
       genres: genresData || [],
       currentPage: 'genres'
@@ -347,7 +353,7 @@ router.get('/genres', async (req, res) => {
   } catch (error) {
     console.error('Genres page error:', error);
     res.render('error', {
-      title: 'Terjadi Kesalahan - KitaNime',
+      title: 'Terjadi Kesalahan - ANIMAQU',
       error: {
         status: 500,
         message: 'Tidak dapat memuat data genre'
@@ -362,9 +368,8 @@ router.get('/genres/:slug', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const genreData = await animeApi.getAnimeByGenre(genreSlug, page);
     res.render('genre-detail', {
-      title: `Genre ${genreData?.genre_name || genreSlug} - KitaNime`,
+      title: `Genre ${genreData?.genre_name || genreSlug} - ANIMAQU`,
       description: `Anime dengan genre ${genreData?.genre_name || genreSlug}`,
-      genreName: genreData?.genre_name || genreSlug,
       genreSlug,
       animeList: genreData?.anime || [],
       pagination: genreData?.pagination || { current_page: page, total_pages: 1 },
@@ -373,7 +378,7 @@ router.get('/genres/:slug', async (req, res) => {
   } catch (error) {
     console.error('Genre detail page error:', error);
     res.render('error', {
-      title: 'Terjadi Kesalahan - KitaNime',
+      title: 'Terjadi Kesalahan - ANIMAQU',
       error: {
         status: 500,
         message: 'Tidak dapat memuat data genre'
@@ -388,7 +393,7 @@ router.get('/movies/', async (req, res) => {
     var movieData = await animeApi.getMovies(page);
     if(!movieData) {
       return res.status(404).render('error', {
-        title: 'Tidak ada film anime - KitaNime',
+        title: 'Tidak ada film anime - ANIMAQU',
         error: {
           status: 404,
           message: 'Tidak ada film anime\nCoba Kembali!'
@@ -396,7 +401,7 @@ router.get('/movies/', async (req, res) => {
       });
     }
     res.render('movie-list', {
-      title: `Daftar Film Anime - KitaNime`,
+      title: `Daftar Film Anime - ANIMAQU`,
       description: `Daftar film anime terbaru`,
       animeList: movieData.data.movies || [],
       pagination : movieData.data.pagination || { current_page: 1, total_pages: 2 },
@@ -405,7 +410,7 @@ router.get('/movies/', async (req, res) => {
   } catch (error) {
     console.error('Movies page error:', error);
     res.render('error', {
-      title: 'Terjadi Kesalahan - KitaNime',
+      title: 'Terjadi Kesalahan - ANIMAQU',
       error: {
         status: 500,
         message: 'Tidak dapat memuat data film anime'
@@ -426,7 +431,7 @@ router.get('/movies/:year/:month/:slug', async (req, res) => {
     
     movieData.data.stream_url = movie;
     res.render('movie-player', {
-      title: `${movieData?.data.title || slug} - KitaNime`,
+      title: `${movieData?.data.title || slug} - ANIMAQU`,
       description: `Film anime ${movieData?.data.title || slug}`,
       anime: movieData.data,
       stream: movieData.data.stream_url,
@@ -435,7 +440,7 @@ router.get('/movies/:year/:month/:slug', async (req, res) => {
   } catch (error) {
     console.error('Movie detail page error:', error);
     res.render('error', {
-      title: 'Terjadi Kesalahan - KitaNime',
+      title: 'Terjadi Kesalahan - ANIMAQU',
       error: {
         status: 500,
         message: 'Tidak dapat memuat data film anime'
@@ -448,7 +453,7 @@ router.get('/movies/:year/:month/:slug', async (req, res) => {
 router.get('/robots.txt', (req, res) => {
   const baseUrl = `${req.protocol}://${req.get('host')}`;
   
-  const robotsTxt = `# Robots.txt for KitaNime - Streaming Anime Subtitle Indonesia
+  const robotsTxt = `# Robots.txt for ANIMAQU - Streaming Anime Subtitle Indonesia
 # Website: ${baseUrl}
 # Generated: ${new Date().toISOString()}
 
